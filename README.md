@@ -1,2 +1,2 @@
 # iaaf
-Internet Archive Audio Finder - iaaf
+*Want to find cool audio?  You need iaaf, af.*
