@@ -1,6 +1,7 @@
 import internetarchive as ia
 import argparse
 import time
+import sys
 
 session = ia.get_session()
 
@@ -37,8 +38,7 @@ def parse_size(size):
     else:
         return int(size)
 
-
-if __name__=='__main__':
+def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('subject', help='subject to search for')
     argparser.add_argument('-min_size', type=str, default="0MB", help='minimum size of item to download.  Supports expressions in MB or GB, like 1MB or 1GB')
@@ -70,3 +70,6 @@ if __name__=='__main__':
         print("\r", end="")
         print("Exiting...")
         exit()
+
+if __name__=='__main__':
+    sys.exit(main())
