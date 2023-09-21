@@ -16,6 +16,12 @@ internetarchive = "^3.5.0"
 [tool.poetry.scripts]
 iaaf = 'audio_finder.main:main'
 
+[tool.poetry.group.release]
+optional = true
+
+[tool.poetry.group.release.dependencies]
+python-semantic-release = "^8.1.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
