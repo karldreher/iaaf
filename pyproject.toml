@@ -38,6 +38,3 @@ build_command = "pip install poetry && poetry build"
 [tool.semantic_release.branches.dev]
 match = "(?!main\b)"
 prerelease = true
-
-[tool.semantic_release.publish]
-upload_to_vcs_release = false
