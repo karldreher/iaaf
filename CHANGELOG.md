@@ -2,6 +2,13 @@
 
 
 
+## v0.2.0 (2023-09-22)
+
+### Fix
+
+* fix: tag only (#4) ([`5576033`](https://github.com/karldreher/iaaf/commit/55760331b59450d39d1f1d12a343aee0c18baab8))
+
+
 ## v0.2.0-rc.1 (2023-09-22)
 
 ### Ci
