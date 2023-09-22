@@ -28,7 +28,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
 version_variable = "audio_finder/__init__.py:__version__"
-version_toml = "pyproject.toml:tool.poetry.version"
+version_toml = ["pyproject.toml:tool.poetry.version"]
 
 branch = "main"
 upload_to_pypi = false
