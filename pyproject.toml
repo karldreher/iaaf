@@ -34,3 +34,7 @@ branch = "main"
 upload_to_pypi = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"
+
+[tool.semantic_release.branches.dev]
+match = "(?!main\b)"
+prerelease = true
