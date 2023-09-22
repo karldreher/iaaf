@@ -2,9 +2,7 @@ name: ci/cd
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+
 
 jobs:
   test:
@@ -32,7 +30,7 @@ jobs:
 
       - name: Semantic Release Preview
         run: |
-          poetry run semantic-release -vv --noop version --print
+          poetry run semantic-release -v --noop version --print
 
   release:
     needs: test
