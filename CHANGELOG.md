@@ -2,6 +2,13 @@
 
 
 
+## v0.3.0 (2023-09-26)
+
+### Feature
+
+* feat: exhaust generator when there are no more results (#6) ([`61802e5`](https://github.com/karldreher/iaaf/commit/61802e56315ee03c9525d63e45fd057163d2b1b2))
+
+
 ## v0.2.1 (2023-09-26)
 
 ### Fix
