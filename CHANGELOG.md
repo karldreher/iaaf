@@ -2,6 +2,13 @@
 
 
 
+## v0.2.1 (2023-09-26)
+
+### Fix
+
+* fix: parameter ease of use (#5) ([`881f891`](https://github.com/karldreher/iaaf/commit/881f8918954110eff3c809cd5b573167bedb3f8d))
+
+
 ## v0.2.0 (2023-09-22)
 
 ### Fix
