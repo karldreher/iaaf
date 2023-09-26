@@ -41,7 +41,7 @@ def parse_size(size):
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('subject', help='subject to search for')
-    argparser.add_argument('-min_size', type=str, default="0MB", help='minimum size of item to download.  Supports expressions in MB or GB, like 1MB or 1GB')
+    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='minimum size of item to download.  Supports expressions in MB or GB, like 1MB or 1GB')
     args = argparser.parse_args()
     size = parse_size(args.min_size)
     
