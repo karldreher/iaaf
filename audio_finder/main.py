@@ -26,7 +26,8 @@ class ArchiveSearch():
         search_terms = ' AND '.join([subject,media_type])
         self.search_terms = search_terms
     def search_items(self):
-        return session.search_items(self.search_terms)
+        # search_items yields, so we want to yield from it rather than return
+        yield from session.search_items(self.search_terms)
 
 def parse_size(size):
     # parse size in bytes, or MB, or GB.  Return size in bytes.
@@ -49,14 +50,13 @@ def main():
     search = ArchiveSearch(args.subject)
     # IF control-c is pressed, exit the loop gracefully
     try:
+        print("Searching...")
+        items=search.search_items()
         while True:
             time.sleep(1)
-            print("Searching...")
-
-            # search for items
-            for item in search.search_items():
+            try:
+                item = next(items)    
                 g = session.get_item(item['identifier'])
-                    
                 n = ArchiveItem(g)
                 if n.item_size < size:
                     continue
@@ -65,6 +65,9 @@ def main():
                 print("\t",f"http://archive.org/details/{n.metadata['identifier']}")
                 print("\t",n.metadata['mediatype'])
                 print("\t",n.item_size)
+            except StopIteration:
+                print("No more results")
+                break
 
     except KeyboardInterrupt:
         print("\r", end="")
