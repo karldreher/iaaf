@@ -53,13 +53,10 @@ def main():
         print("Searching...")
         items=search.search_items()
         while True:
-            time.sleep(1)
             try:
                 item = next(items)    
                 g = session.get_item(item['identifier'])
                 n = ArchiveItem(g)
-                if n.item_size < size:
-                    continue
                 #csv.append([g.metadata['identifier'],g.metadata['title'],(f"{(size / 1024 / 1024):.2f} MB")])
                 print(n.title)
                 print("\t",f"http://archive.org/details/{n.metadata['identifier']}")
