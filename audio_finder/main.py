@@ -39,15 +39,9 @@ def parse_size(size):
     else:
         return int(size)
 
-def main():
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument('subject', help='subject to search for')
-    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='minimum size of item to download.  Supports expressions in MB or GB, like 1MB or 1GB')
-    args = argparser.parse_args()
-    size = parse_size(args.min_size)
-    
-    # search for items
-    search = ArchiveSearch(args.subject)
+def search_pipeline(subject, min_size):
+     # search for items
+    search = ArchiveSearch(subject)
     # IF control-c is pressed, exit the loop gracefully
     try:
         print("Searching...")
@@ -59,7 +53,7 @@ def main():
                 n = ArchiveItem(g)
                 # This is implemented here because the item_size query does not work as expected.  This could be a bug on the IA side. 
                 # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
-                if n.item_size < size:
+                if n.item_size < min_size:
                     continue
                 #csv.append([g.metadata['identifier'],g.metadata['title'],(f"{(size / 1024 / 1024):.2f} MB")])
                 print(n.title)
@@ -74,6 +68,16 @@ def main():
         print("\r", end="")
         print("Exiting...")
         exit()
+
+
+def main():
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument('subject', help='subject to search for')
+    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='minimum size of item to download.  Supports expressions in MB or GB, like 1MB or 1GB')
+    args = argparser.parse_args()
+    size = parse_size(args.min_size)
+    
+    search_pipeline(subject=args.subject, min_size=size)
 
 if __name__=='__main__':
     sys.exit(main())
