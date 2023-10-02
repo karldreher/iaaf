@@ -57,6 +57,8 @@ def main():
                 item = next(items)    
                 g = session.get_item(item['identifier'])
                 n = ArchiveItem(g)
+                # This is implemented here because the item_size query does not work as expected.  This could be a bug on the IA side. 
+                # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
                 if n.item_size < size:
                     continue
                 #csv.append([g.metadata['identifier'],g.metadata['title'],(f"{(size / 1024 / 1024):.2f} MB")])
