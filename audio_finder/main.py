@@ -20,14 +20,16 @@ class ArchiveItem():
         self.item.download(dry_run=True)
 
 class ArchiveSearch():
-    def __init__(self, subject):
+    def __init__(self, subject, title_match=False):
         self.subject = subject
+        self.title_match = f'title:"{subject}"' if title_match is True else None
         media_type = 'mediatype:audio'
-        search_terms = ' AND '.join([subject,media_type])
-        self.search_terms = search_terms
+        search_terms = filter(lambda x: x is not None, [media_type,self.subject,self.title_match])
+        self.query = ' AND '.join(search_terms)
     def search_items(self):
         # search_items yields, so we want to yield from it rather than return
-        yield from session.search_items(self.search_terms)
+        yield from session.search_items(self.query)
+
 
 def parse_size(size):
     # parse size in bytes, or MB, or GB.  Return size in bytes.
@@ -39,9 +41,9 @@ def parse_size(size):
     else:
         return int(size)
 
-def search_pipeline(subject, min_size):
+def search_pipeline(subject, min_size,title_match):
      # search for items
-    search = ArchiveSearch(subject)
+    search = ArchiveSearch(subject,title_match=title_match)
     # IF control-c is pressed, exit the loop gracefully
     try:
         print("Searching...")
@@ -61,7 +63,7 @@ def search_pipeline(subject, min_size):
                 print("\t",n.metadata['mediatype'])
                 print("\t",n.item_size)
             except StopIteration:
-                print("No more results")
+                print("No more results.")
                 break
 
     except KeyboardInterrupt:
@@ -73,11 +75,12 @@ def search_pipeline(subject, min_size):
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('subject', help='subject to search for')
-    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='minimum size of item to download.  Supports expressions in MB or GB, like 1MB or 1GB')
+    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB')
+    argparser.add_argument('--title_match', '--title-match', action='store_true', default=False, help='Use provided subject to search subject AND title.')
     args = argparser.parse_args()
     size = parse_size(args.min_size)
     
-    search_pipeline(subject=args.subject, min_size=size)
+    search_pipeline(subject=args.subject, min_size=size, title_match=args.title_match)
 
 if __name__=='__main__':
     sys.exit(main())
