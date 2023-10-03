@@ -21,7 +21,7 @@ class ArchiveItem():
 
 class ArchiveSearch():
     def __init__(self, subject, title_match=False):
-        self.subject = subject
+        self.subject = f'subject:"{subject}"'
         self.title_match = f'title:"{subject}"' if title_match is True else None
         media_type = 'mediatype:audio'
         search_terms = filter(lambda x: x is not None, [media_type,self.subject,self.title_match])

@@ -23,10 +23,10 @@ jobs:
           cache: 'poetry'
 
       - name: Poetry Install
-        run: poetry install --with release
+        run: poetry install --with release,test
 
-    #   - name: Pytest
-    #     run: poetry run pytest -v
+      - name: Pytest
+        run: poetry run pytest -v
 
       - name: Semantic Release Preview
         run: |
