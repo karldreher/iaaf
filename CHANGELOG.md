@@ -2,6 +2,37 @@
 
 
 
+## v0.4.0 (2023-10-03)
+
+### Documentation
+
+* docs: comments ([`cedfc89`](https://github.com/karldreher/iaaf/commit/cedfc89e41a70dbeefb685a6b93eb8995a39c4de))
+
+### Feature
+
+* feat: title_match ([`0ac5248`](https://github.com/karldreher/iaaf/commit/0ac524804f27d6d2585e9aa71a22f0bb3f300dac))
+
+### Fix
+
+* fix: add back size filter ([`44c685f`](https://github.com/karldreher/iaaf/commit/44c685f3c459c99007eb14ce75608d582c2e4984))
+
+* fix: remove unneeded delay ([`edf2bf9`](https://github.com/karldreher/iaaf/commit/edf2bf9ca63a71d8654613af6cbcd54828499ff5))
+
+### Refactor
+
+* refactor: move main logic to function for readability ([`de520aa`](https://github.com/karldreher/iaaf/commit/de520aa1973edc71e71bb3f8cbb8327cd00e97f8))
+
+### Test
+
+* test: set up pytest and fix minor error ([`d68c461`](https://github.com/karldreher/iaaf/commit/d68c461f49afb0613aeb8d7580244b2914ad2aa7))
+
+### Unknown
+
+* Merge pull request #7 from karldreher/dev
+
+feat: title_match ([`d497c9e`](https://github.com/karldreher/iaaf/commit/d497c9edbe42519534bd57820cdcc6dced0e23ca))
+
+
 ## v0.3.0 (2023-09-26)
 
 ### Feature
