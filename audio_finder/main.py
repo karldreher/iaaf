@@ -31,17 +31,20 @@ class ArchiveSearch():
 
 
 def parse_size(size):
-    # parse size in bytes, or MB, or GB.  Return size in bytes.
+    '''
+    Parse size in bytes, or MB, or GB.  Return size in bytes.
+    '''
     size = size.upper()
     if size[-2:] == 'MB':
         return int(size[:-2]) * 1024 * 1024
     elif size[-2:] == 'GB':
         return int(size[:-2]) * 1024 * 1024 * 1024
-    else:
-        return int(size)
+    return int(size)
 
 def search_pipeline(title, min_size):
-     # search for items
+    '''
+    Given `title` and `min_size`, search Internet Archive for audio matching the title.
+    '''
     search = ArchiveSearch(title=title)
     # IF control-c is pressed, exit the loop gracefully
     try:
@@ -56,7 +59,6 @@ def search_pipeline(title, min_size):
                 # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
                 if n.item_size < min_size:
                     continue
-                #csv.append([g.metadata['identifier'],g.metadata['title'],(f"{(size / 1024 / 1024):.2f} MB")])
                 print(n.title)
                 print("\t",f"http://archive.org/details/{n.metadata['identifier']}")
                 print("\t",n.metadata['mediatype'])
