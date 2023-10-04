@@ -77,7 +77,7 @@ def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('title', help='Title to search for.  Always required.')
     argparser.add_argument('--subject', type=str, default=None, help='Optional subject to search for.')
-    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB')
+    argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB.')
     args = argparser.parse_args()
     size = parse_size(args.min_size)
     
