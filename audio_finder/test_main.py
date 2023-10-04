@@ -9,3 +9,5 @@ def test_archive_search():
     assert search.query == 'mediatype:audio AND title:"Kool and the gang"'
     search = ArchiveSearch(title="Parliment Funkadelic")
     assert search.query == 'mediatype:audio AND title:"Parliment Funkadelic"'
+    search = ArchiveSearch(title="George Clinton",subject="Funk music")
+    assert search.query == 'mediatype:audio AND title:"George Clinton" AND subject:"Funk music"'

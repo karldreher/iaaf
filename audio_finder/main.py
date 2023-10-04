@@ -19,10 +19,11 @@ class ArchiveItem():
         self.item.download(dry_run=True)
 
 class ArchiveSearch():
-    def __init__(self, title):
+    def __init__(self, title, subject=None):
         self.title = f'title:"{title}"'
+        self.subject = f'subject:"{subject}"' if subject else None
         media_type = 'mediatype:audio'
-        search_terms = filter(lambda x: x is not None, [media_type,self.title])
+        search_terms = filter(lambda x: x is not None, [media_type,self.title,self.subject])
         self.query = ' AND '.join(search_terms)
     def search_items(self):
         # search_items yields, so we want to yield from it rather than return
@@ -40,11 +41,11 @@ def parse_size(size):
         return int(size[:-2]) * 1024 * 1024 * 1024
     return int(size)
 
-def search_pipeline(title, min_size):
+def search_pipeline(title, min_size, subject):
     '''
     Given `title` and `min_size`, search Internet Archive for audio matching the title.
     '''
-    search = ArchiveSearch(title=title)
+    search = ArchiveSearch(title=title,subject=subject)
     # IF control-c is pressed, exit the loop gracefully
     try:
         print("Searching...")
@@ -74,12 +75,13 @@ def search_pipeline(title, min_size):
 
 def main():
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('title', help='Title to search for')
+    argparser.add_argument('title', help='Title to search for.  Always required.')
+    argparser.add_argument('--subject', type=str, default=None, help='Optional subject to search for.')
     argparser.add_argument('--min_size', '--min-size', type=str, default="0MB", help='Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB')
     args = argparser.parse_args()
     size = parse_size(args.min_size)
     
-    search_pipeline(title=args.title, min_size=size)
+    search_pipeline(title=args.title, min_size=size, subject=args.subject)
 
 if __name__=='__main__':
     sys.exit(main())
