@@ -1,6 +1,5 @@
 import internetarchive as ia
 import argparse
-import time
 import sys
 
 session = ia.get_session()
