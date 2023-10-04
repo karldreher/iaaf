@@ -2,6 +2,33 @@
 
 
 
+## v1.0.0 (2023-10-04)
+
+### Breaking
+
+* feat!: reimplementation
+
+feat!: reimplementation ([`27e4383`](https://github.com/karldreher/iaaf/commit/27e4383c3d4d5a7ea3aae96424aeed7316862d6a))
+
+* feat!: search on title, not subject
+
+BREAKING CHANGE: search on title, not subject ([`2a6227a`](https://github.com/karldreher/iaaf/commit/2a6227aca4ed14b08bd74d1cc9feae27891a27c6))
+
+### Documentation
+
+* docs: cleanup comments ([`2f4bf91`](https://github.com/karldreher/iaaf/commit/2f4bf915e444b7111f50f14cb54fa4fcb9667271))
+
+### Feature
+
+* feat: re-introduce subject as optional param ([`4fcc127`](https://github.com/karldreher/iaaf/commit/4fcc127581a5dfdab480cdddfc5431a7a88c69ee))
+
+### Fix
+
+* fix: punctuation ([`f679974`](https://github.com/karldreher/iaaf/commit/f679974c4fe1e823fdc86aea5b23aef67ad71fc1))
+
+* fix: remove unused import ([`abee2a2`](https://github.com/karldreher/iaaf/commit/abee2a26cf11dcf8b21a904600bc5522bd7f2039))
+
+
 ## v0.4.0 (2023-10-03)
 
 ### Documentation
