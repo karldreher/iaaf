@@ -32,7 +32,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
-version_variable = "audio_finder/__init__.py:__version__"
+version_variables = ["audio_finder/__init__.py:__version__"]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 
 branch = "main"
