@@ -2,6 +2,23 @@
 
 
 
+## v1.1.0 (2023-10-05)
+
+### Build
+
+* build: add lint tools and update build metadata (#9) ([`da10724`](https://github.com/karldreher/iaaf/commit/da1072462dfa761bc177c6390e07ded708ad6ca9))
+
+* build: update version variables ([`fd5548b`](https://github.com/karldreher/iaaf/commit/fd5548b3e512920ba2de21632f075412712ffe75))
+
+### Feature
+
+* feat: add black formatter ([`2d385c1`](https://github.com/karldreher/iaaf/commit/2d385c171ea349b398b020c0fb5d7e7e5534de9e))
+
+### Fix
+
+* fix: format files with black ([`0e0519b`](https://github.com/karldreher/iaaf/commit/0e0519b73e5ea9a633ee1880680272dbe4aaa4ab))
+
+
 ## v1.0.0 (2023-10-04)
 
 ### Breaking
