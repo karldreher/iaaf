@@ -69,7 +69,6 @@ def search_pipeline(title, min_size, subject):
                     continue
                 print(n.title)
                 print("\t", n.url)
-                print("\t", n.metadata["mediatype"])
                 print("\t", n.item_size)
             except StopIteration:
                 print("No more results.")
