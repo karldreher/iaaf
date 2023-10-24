@@ -2,6 +2,15 @@
 
 
 
+## v2.1.1 (2023-10-24)
+
+### Fix
+
+* fix: arg name (#13) ([`a6318ca`](https://github.com/karldreher/iaaf/commit/a6318caceafc944e5aaf575acec4375b2ddb5a16))
+
+* fix: arg name ([`927ca0f`](https://github.com/karldreher/iaaf/commit/927ca0f0006fdfbfa23f047ce81e3db926dee2dc))
+
+
 ## v2.1.0 (2023-10-24)
 
 ### Build
