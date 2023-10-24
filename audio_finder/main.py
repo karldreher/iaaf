@@ -95,7 +95,7 @@ def main():
         help="Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB.",
     )
     args = argparser.parse_args()
-    if args.configure:
+    if args.config:
         print("Enter your Internet Archive credentials.")
         ia.configure()
         exit()
