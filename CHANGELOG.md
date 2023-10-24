@@ -2,6 +2,34 @@
 
 
 
+## v2.1.0 (2023-10-24)
+
+### Build
+
+* build(deps): bump urllib3 from 2.0.5 to 2.0.7 (#11) ([`0e03532`](https://github.com/karldreher/iaaf/commit/0e03532b19633aa3e213703474508b37eeebca46))
+
+* build(deps): bump urllib3 from 2.0.5 to 2.0.7
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.0.5 to 2.0.7.
+- [Release notes](https://github.com/urllib3/urllib3/releases)
+- [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst)
+- [Commits](https://github.com/urllib3/urllib3/compare/v2.0.5...2.0.7)
+
+---
+updated-dependencies:
+- dependency-name: urllib3
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`261f22a`](https://github.com/karldreher/iaaf/commit/261f22adb70ee4222b1244ff458fbae4d792cdcd))
+
+### Feature
+
+* feat: lightweight wrapper for internet archive login (#12) ([`e5801f0`](https://github.com/karldreher/iaaf/commit/e5801f0b5896e6d09dd2555b22763116c24b6d87))
+
+* feat: lightweight wrapper for internet archive login ([`bc4bb42`](https://github.com/karldreher/iaaf/commit/bc4bb4279efa0153d729ed07ce534b8c4e471d07))
+
+
 ## v2.0.0 (2023-10-24)
 
 ### Breaking
