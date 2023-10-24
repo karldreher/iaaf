@@ -11,7 +11,7 @@ class ArchiveItem:
         self.metadata = item.metadata
         self.title = item.metadata["title"]
         self.item_size = item.item_size
-
+        self.url = f"http://archive.org/details/{self}"
     def __repr__(self):
         return self.metadata["identifier"]
 
@@ -68,8 +68,7 @@ def search_pipeline(title, min_size, subject):
                 if n.item_size < min_size:
                     continue
                 print(n.title)
-                print("\t", f"http://archive.org/details/{n.metadata['identifier']}")
-                print("\t", n.metadata["mediatype"])
+                print("\t", n.url)
                 print("\t", n.item_size)
             except StopIteration:
                 print("No more results.")
