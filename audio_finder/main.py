@@ -82,7 +82,8 @@ def search_pipeline(title, min_size, subject):
 
 def main():
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("title", help="Title to search for.  Always required.")
+    argparser.add_argument("--config", "--configure", action="store_true", help="Configure authentication to Internet Archive.")
+    argparser.add_argument("title", nargs='?' if '--config' in sys.argv else None, help="Title to search for.  Always required.")
     argparser.add_argument(
         "--subject", type=str, default=None, help="Optional subject to search for."
     )
@@ -94,6 +95,11 @@ def main():
         help="Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB.",
     )
     args = argparser.parse_args()
+    if args.configure:
+        print("Enter your Internet Archive credentials.")
+        ia.configure()
+        exit()
+    
     size = parse_size(args.min_size)
 
     search_pipeline(title=args.title, min_size=size, subject=args.subject)
