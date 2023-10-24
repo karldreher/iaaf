@@ -2,6 +2,19 @@
 
 
 
+## v2.0.0 (2023-10-24)
+
+### Breaking
+
+* feat!: remove mediatype output ([`caa49c8`](https://github.com/karldreher/iaaf/commit/caa49c84535e84bd6a2c5843743e9eb3a68996e7))
+
+### Feature
+
+* feat: change item attributes (#10) ([`da042ec`](https://github.com/karldreher/iaaf/commit/da042ec7932e1378de511f142de67c5318cc7f69))
+
+* feat: url attribute ([`6c5fced`](https://github.com/karldreher/iaaf/commit/6c5fced8866dd857fa3d9a7e687e690bd81614e5))
+
+
 ## v1.1.0 (2023-10-05)
 
 ### Build
