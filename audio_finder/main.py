@@ -1,9 +1,11 @@
 import internetarchive as ia
 import argparse
 import sys
+import yaml
+import logging
 
 session = ia.get_session()
-
+logger = logging.getLogger(__name__)
 
 class ArchiveItem:
     def __init__(self, item):
@@ -36,6 +38,14 @@ class ArchiveSearch:
         # search_items yields, so we want to yield from it rather than return
         yield from session.search_items(self.query)
 
+class Output:
+    def __init__(self,item:ArchiveItem):
+        self.item = item
+        self.yaml = yaml.dump({item.title:[{"size":item.item_size},{"url":item.url}]})
+
+
+def output(item:ArchiveItem):
+    return Output(item)
 
 def parse_size(size):
     """
@@ -49,14 +59,15 @@ def parse_size(size):
     return int(size)
 
 
-def search_pipeline(title, min_size, subject):
+def search_pipeline(args:argparse.Namespace):
     """
     Given `title` and `min_size`, search Internet Archive for audio matching the title.
     """
-    search = ArchiveSearch(title=title, subject=subject)
+    min_size = parse_size(args.min_size)
+    search = ArchiveSearch(title=args.title, subject=args.subject)
     # IF control-c is pressed, exit the loop gracefully
     try:
-        print("Searching...")
+        logger.info("Searching...")
         items = search.search_items()
         while True:
             try:
@@ -67,16 +78,14 @@ def search_pipeline(title, min_size, subject):
                 # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
                 if n.item_size < min_size:
                     continue
-                print(n.title)
-                print("\t", n.url)
-                print("\t", n.item_size)
+                print(output(n).yaml)
             except StopIteration:
-                print("No more results.")
+                logger.info("No more results.")
                 break
 
     except KeyboardInterrupt:
         print("\r", end="")
-        print("Exiting...")
+        logger.info("Exiting due to user requested stop...")
         exit()
 
 
@@ -94,15 +103,18 @@ def main():
         default="0MB",
         help="Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB.",
     )
+    argparser.add_argument("--verbose",action="store_true",help="Enable verbose logging")
+    
     args = argparser.parse_args()
+    # Debug catches a lot of lower level stuff from IA, which we don't need right now.  
+    # In the future, may consider additional verbosity levels.
+    logging.basicConfig(level=(logging.INFO if args.verbose else logging.WARN))
+
     if args.config:
         print("Enter your Internet Archive credentials.")
         ia.configure()
         exit()
-    
-    size = parse_size(args.min_size)
-
-    search_pipeline(title=args.title, min_size=size, subject=args.subject)
+    search_pipeline(args)
 
 
 if __name__ == "__main__":
