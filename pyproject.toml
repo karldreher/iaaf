@@ -12,6 +12,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11"
 internetarchive = "^3.5.0"
+pyyaml = "^6.0.1"
 
 [tool.poetry.scripts]
 iaaf = 'audio_finder.main:main'
@@ -25,7 +26,13 @@ python-semantic-release = "^8.1.1"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
-black = "^23.9.1"
+ruff = "^0.1.9"
+
+
+[tool.ruff.lint]
+select = ["E", "F","I"]
+ignore = ["F401"]
+
 
 [build-system]
 requires = ["poetry-core"]
