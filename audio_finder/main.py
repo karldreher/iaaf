@@ -7,6 +7,7 @@ import logging
 session = ia.get_session()
 logger = logging.getLogger(__name__)
 
+
 class ArchiveItem:
     def __init__(self, item):
         self.item = item
@@ -14,6 +15,7 @@ class ArchiveItem:
         self.title = item.metadata["title"]
         self.item_size = item.item_size
         self.url = f"http://archive.org/details/{self}"
+
     def __repr__(self):
         return self.metadata["identifier"]
 
@@ -38,10 +40,12 @@ class ArchiveSearch:
         # search_items yields, so we want to yield from it rather than return
         yield from session.search_items(self.query)
 
+
 class Output:
-    def __init__(self,item:ArchiveItem):
-        self.dict = {item.title:[{"size":item.item_size},{"url":item.url}]}
+    def __init__(self, item: ArchiveItem):
+        self.dict = {item.title: [{"size": item.item_size}, {"url": item.url}]}
         self.yaml = yaml.dump(self.dict)
+
 
 def parse_size(size):
     """
@@ -55,7 +59,7 @@ def parse_size(size):
     return int(size)
 
 
-def search_pipeline(args:argparse.Namespace):
+def search_pipeline(args: argparse.Namespace):
     """
     Given `title` and `min_size`, search Internet Archive for audio matching the title.
     """
@@ -75,7 +79,7 @@ def search_pipeline(args:argparse.Namespace):
                 # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
                 if n.item_size < min_size:
                     continue
-                
+
                 # By default, output is yaml
                 print("---")
                 print(Output(n).yaml)
@@ -90,8 +94,17 @@ def search_pipeline(args:argparse.Namespace):
 
 def main():
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--config", "--configure", action="store_true", help="Configure authentication to Internet Archive.")
-    argparser.add_argument("title", nargs='?' if '--config' in sys.argv else None, help="Title to search for.  Always required.")
+    argparser.add_argument(
+        "--config",
+        "--configure",
+        action="store_true",
+        help="Configure authentication to Internet Archive.",
+    )
+    argparser.add_argument(
+        "title",
+        nargs="?" if "--config" in sys.argv else None,
+        help="Title to search for.  Always required.",
+    )
     argparser.add_argument(
         "--subject", type=str, default=None, help="Optional subject to search for."
     )
@@ -102,10 +115,12 @@ def main():
         default="0MB",
         help="Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB.",
     )
-    argparser.add_argument("--verbose",action="store_true",help="Enable verbose logging")
-    
+    argparser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose logging"
+    )
+
     args = argparser.parse_args()
-    # Debug catches a lot of lower level stuff from IA, which we don't need right now.  
+    # Debug catches a lot of lower level stuff from IA, which we don't need right now.
     # In the future, may consider additional verbosity levels.
     logging.basicConfig(level=(logging.INFO if args.verbose else logging.WARN))
 
