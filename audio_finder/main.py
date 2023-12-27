@@ -1,8 +1,9 @@
-import internetarchive as ia
 import argparse
-import sys
-import yaml
 import logging
+import sys
+
+import internetarchive as ia
+import yaml
 
 session = ia.get_session()
 logger = logging.getLogger(__name__)
@@ -75,8 +76,10 @@ def search_pipeline(args: argparse.Namespace):
                 item = next(items)
                 g = session.get_item(item["identifier"])
                 n = ArchiveItem(g)
-                # This is implemented here because the item_size query does not work as expected.  This could be a bug on the IA side.
-                # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
+                # This is implemented here because the item_size query does.  
+                # not seem to work on the IA side.
+                # It is expected that the search 'item_size:[1000 TO null]' can work, 
+                # but it does not.
                 if n.item_size < min_size:
                     continue
 
@@ -113,7 +116,8 @@ def main():
         "--min-size",
         type=str,
         default="0MB",
-        help="Minimum size of item to search for.  Supports expressions in MB or GB, like 1MB or 1GB.",
+        help="Minimum size of item to search for.  \
+            Supports expressions in MB or GB, like 1MB or 1GB.",
     )
     argparser.add_argument(
         "--verbose", action="store_true", help="Enable verbose logging"
