@@ -40,12 +40,8 @@ class ArchiveSearch:
 
 class Output:
     def __init__(self,item:ArchiveItem):
-        self.item = item
-        self.yaml = yaml.dump({item.title:[{"size":item.item_size},{"url":item.url}]})
-
-
-def output(item:ArchiveItem):
-    return Output(item)
+        self.dict = {item.title:[{"size":item.item_size},{"url":item.url}]}
+        self.yaml = yaml.dump(self.dict)
 
 def parse_size(size):
     """
@@ -65,6 +61,7 @@ def search_pipeline(args:argparse.Namespace):
     """
     min_size = parse_size(args.min_size)
     search = ArchiveSearch(title=args.title, subject=args.subject)
+
     # IF control-c is pressed, exit the loop gracefully
     try:
         logger.info("Searching...")
@@ -78,11 +75,13 @@ def search_pipeline(args:argparse.Namespace):
                 # We would typically expect that the search 'item_size:[1000 TO null]' to work, but it does not.
                 if n.item_size < min_size:
                     continue
-                print(output(n).yaml)
+                
+                # By default, output is yaml
+                print("---")
+                print(Output(n).yaml)
             except StopIteration:
                 logger.info("No more results.")
                 break
-
     except KeyboardInterrupt:
         print("\r", end="")
         logger.info("Exiting due to user requested stop...")
