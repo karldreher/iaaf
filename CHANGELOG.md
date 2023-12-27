@@ -2,6 +2,31 @@
 
 
 
+## v2.2.0 (2023-12-27)
+
+### Feature
+
+* feat: default yaml output (#14) ([`75f3dd4`](https://github.com/karldreher/iaaf/commit/75f3dd447978b2b08099daf010ced5f27414dfa2))
+
+* feat: doc separator ([`b0d68a7`](https://github.com/karldreher/iaaf/commit/b0d68a74467fdb197e36f461d8ba3acb126274f5))
+
+* feat: adopt ruff format check ([`d8b2b60`](https://github.com/karldreher/iaaf/commit/d8b2b606c25d8a4cddb64592f0c230ccb19d9f5d))
+
+* feat: adopt ruff lint ([`e5f8514`](https://github.com/karldreher/iaaf/commit/e5f85148a658bcafaeb9568a92090b34fa96a39c))
+
+* feat: format with ruff ([`0374f5f`](https://github.com/karldreher/iaaf/commit/0374f5fda5f1ae7401760d6766df645bd3b310bf))
+
+* feat: adopt ruff and remove black ([`bd11544`](https://github.com/karldreher/iaaf/commit/bd11544a79aeda560daf625af1a89865ce0e835c))
+
+* feat: remove function call ([`9d2bf5c`](https://github.com/karldreher/iaaf/commit/9d2bf5c0792d27f3d47444d0e735a7586bbb04b7))
+
+* feat: default yaml output ([`1aca7fb`](https://github.com/karldreher/iaaf/commit/1aca7fb035cd6d8d621b7c07eb10422656786605))
+
+### Fix
+
+* fix: lint ([`76a2354`](https://github.com/karldreher/iaaf/commit/76a23547ad7264a86971bfab5f88786236853121))
+
+
 ## v2.1.1 (2023-10-24)
 
 ### Fix
