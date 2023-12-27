@@ -71,20 +71,22 @@ def search_pipeline(args: argparse.Namespace):
     try:
         logger.info("Searching...")
         items = search.search_items()
+        # yaml separator
+        print("---")
+
         while True:
             try:
                 item = next(items)
                 g = session.get_item(item["identifier"])
                 n = ArchiveItem(g)
-                # This is implemented here because the item_size query does.  
+                # This is implemented here because the item_size query does.
                 # not seem to work on the IA side.
-                # It is expected that the search 'item_size:[1000 TO null]' can work, 
+                # It is expected that the search 'item_size:[1000 TO null]' can work,
                 # but it does not.
                 if n.item_size < min_size:
                     continue
 
                 # By default, output is yaml
-                print("---")
                 print(Output(n).yaml)
             except StopIteration:
                 logger.info("No more results.")
