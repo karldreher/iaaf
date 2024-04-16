@@ -2,6 +2,68 @@
 
 
 
+## v2.3.0 (2024-04-16)
+
+### Build
+
+* build(deps-dev): bump jinja2 from 3.1.2 to 3.1.3 (#17) ([`1398b2a`](https://github.com/karldreher/iaaf/commit/1398b2a6de8bff6e666639c16f6ad315d509f315))
+
+* build(deps-dev): bump jinja2 from 3.1.2 to 3.1.3
+
+Bumps [jinja2](https://github.com/pallets/jinja) from 3.1.2 to 3.1.3.
+- [Release notes](https://github.com/pallets/jinja/releases)
+- [Changelog](https://github.com/pallets/jinja/blob/main/CHANGES.rst)
+- [Commits](https://github.com/pallets/jinja/compare/3.1.2...3.1.3)
+
+---
+updated-dependencies:
+- dependency-name: jinja2
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`39c5865`](https://github.com/karldreher/iaaf/commit/39c58654ac63b9e240ad3cdae974a1f7df318218))
+
+* build(deps): bump idna from 3.4 to 3.7 (#16) ([`6dca591`](https://github.com/karldreher/iaaf/commit/6dca591e6719bca54c74dbc7534d1cc7315de6f1))
+
+* build(deps): bump idna from 3.4 to 3.7
+
+Bumps [idna](https://github.com/kjd/idna) from 3.4 to 3.7.
+- [Release notes](https://github.com/kjd/idna/releases)
+- [Changelog](https://github.com/kjd/idna/blob/master/HISTORY.rst)
+- [Commits](https://github.com/kjd/idna/compare/v3.4...v3.7)
+
+---
+updated-dependencies:
+- dependency-name: idna
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`a3192e8`](https://github.com/karldreher/iaaf/commit/a3192e84d611095ffc6adc7bad5c105d673848e0))
+
+* build(deps-dev): bump gitpython from 3.1.37 to 3.1.41 (#15) ([`72f5063`](https://github.com/karldreher/iaaf/commit/72f506309cd5d94338a2d558fc49651d7f4ed631))
+
+* build(deps-dev): bump gitpython from 3.1.37 to 3.1.41
+
+Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.37 to 3.1.41.
+- [Release notes](https://github.com/gitpython-developers/GitPython/releases)
+- [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES)
+- [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.37...3.1.41)
+
+---
+updated-dependencies:
+- dependency-name: gitpython
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`41f8a0b`](https://github.com/karldreher/iaaf/commit/41f8a0b843fd4ddaae35d34f3451e1ca9a913ccf))
+
+### Feature
+
+* feat: package update (#18) ([`18e77a1`](https://github.com/karldreher/iaaf/commit/18e77a122f6dabe00d786af38bf1b0dd612d0358))
+
+* feat: package update ([`e077455`](https://github.com/karldreher/iaaf/commit/e077455803198e90bdd21fdfd54551254064f52c))
+
+
 ## v2.2.0 (2023-12-27)
 
 ### Feature
