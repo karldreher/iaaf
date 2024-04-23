@@ -1,4 +1,8 @@
-from audio_finder.main import ArchiveSearch, parse_size
+from audio_finder.main import ArchiveItem, ArchiveSearch, Output, parse_size, yaml
+
+
+class Mock(object):
+    pass
 
 
 def test_parse_size():
@@ -16,3 +20,19 @@ def test_archive_search():
         search.query
         == 'mediatype:audio AND title:"George Clinton" AND subject:"Funk music"'
     )
+
+def test_output():
+    ## For these tests, we only need title, item_size, and url.  
+    # Metadata is a required parameter.
+    item = Mock()
+    item.metadata = {"title": "Cameo - Word Up","identifier":"Mock"}
+    item.item_size = "12345"
+    item.url = "https://example.org/mock"
+    output = Output(ArchiveItem(item))
+    assert output.yaml == yaml.dump([output.dict],sort_keys=False)
+
+    item.metadata = {"title": "Cameo - Word Up: Colon Edition","identifier":"Mock"}
+    output = Output(ArchiveItem(item))
+    assert output.dict["title"] == "Cameo - Word Up: Colon Edition"
+    # Ensure that a colon-ified string gets properly formatted and doesn't cause havoc.
+    assert output.yaml.splitlines()[0] == "- title: 'Cameo - Word Up: Colon Edition'"
