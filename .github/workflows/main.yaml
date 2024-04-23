@@ -26,7 +26,7 @@ jobs:
         run: poetry install --with release,test
 
       - name: Pytest
-        run: poetry run pytest -v
+        run: poetry run pytest
       
       - name: Ruff Lint
         run: poetry run ruff check
