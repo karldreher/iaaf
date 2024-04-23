@@ -2,6 +2,23 @@
 
 
 
+## v2.4.0 (2024-04-23)
+
+### Chore
+
+* chore: format ([`a674db8`](https://github.com/karldreher/iaaf/commit/a674db8b1c72a0e5683261f747bb4490e140e18b))
+
+* chore: update poetry.lock ([`dceaed3`](https://github.com/karldreher/iaaf/commit/dceaed3fd50349d05f8f4d7c334d33f16fb53373))
+
+### Feature
+
+* feat: proper yaml list (#19) ([`4285098`](https://github.com/karldreher/iaaf/commit/4285098d912893afbd29526831a53044c1113b33))
+
+* feat: don&#39;t sort keys ([`1af121d`](https://github.com/karldreher/iaaf/commit/1af121d52751b3bdf729e4d37423d35859924477))
+
+* feat: make items a proper list ([`6caded9`](https://github.com/karldreher/iaaf/commit/6caded9fbd55b9ee505c805219c123edd86e49e9))
+
+
 ## v2.3.0 (2024-04-16)
 
 ### Build
