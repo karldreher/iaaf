@@ -44,8 +44,8 @@ class ArchiveSearch:
 
 class Output:
     def __init__(self, item: ArchiveItem):
-        self.dict = {"title":item.title,"size": item.item_size, "url": item.url}
-        self.yaml = yaml.dump([self.dict],sort_keys=False)
+        self.dict = {"title": item.title, "size": item.item_size, "url": item.url}
+        self.yaml = yaml.dump([self.dict], sort_keys=False)
 
 
 def parse_size(size):
