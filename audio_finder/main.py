@@ -32,7 +32,7 @@ class ArchiveSearch:
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
-        # Workaround:  Set a max size (1TB) which is too impractical to download.
+        # Workaround:  Set a max (1TB) which is too impractical to download.
         self.size = f"item_size:[{str(min_size)} TO 1000000000000]"
         media_type = "mediatype:audio"
         search_terms = filter(
