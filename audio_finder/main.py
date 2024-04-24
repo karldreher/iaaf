@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class ArchiveItem:
-    def __init__(self, item):
+    def __init__(self, item:ia.item.Item):
         self.item = item
         self.metadata = item.metadata
         self.title = item.metadata["title"]
@@ -42,7 +42,7 @@ class ArchiveSearch:
 
     def search_items(self):
         # search_items yields, so we want to yield from it rather than return
-        yield from session.search_items(self.query)
+        yield from session.search_items(self.query) #pragma: no cover
 
 
 class Output:
@@ -63,7 +63,7 @@ def parse_size(size):
     return int(size)
 
 
-def search_pipeline(args: argparse.Namespace):
+def search_pipeline(args: argparse.Namespace): #pragma: no cover
     """
     Given `title` and `min_size`, search Internet Archive for audio matching the title.
     """
@@ -95,7 +95,7 @@ def search_pipeline(args: argparse.Namespace):
         exit()
 
 
-def main():
+def main(): #pragma: no cover
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "--config",
@@ -135,5 +135,5 @@ def main():
     search_pipeline(args)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": #pragma: no cover
     sys.exit(main())
