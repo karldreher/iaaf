@@ -2,6 +2,45 @@
 
 
 
+## v2.4.1 (2024-04-24)
+
+### Chore
+
+* chore: update cov package ([`8c427c8`](https://github.com/karldreher/iaaf/commit/8c427c815163c889beec65a41017a50658e39d26))
+
+* chore: newline ([`f152d99`](https://github.com/karldreher/iaaf/commit/f152d997e18c9f222d941a8f1031a5362b3f6ec5))
+
+### Ci
+
+* ci: set pytest options in pyproject.toml ([`448ea42`](https://github.com/karldreher/iaaf/commit/448ea424b9d0409973b1ba8a932f13fab2d4b058))
+
+### Documentation
+
+* docs: update comment ([`01bbddd`](https://github.com/karldreher/iaaf/commit/01bbddd9c6f112bad426b060a5314eb7cfabdcd8))
+
+### Fix
+
+* fix: item_size query now works (#21) ([`c79f153`](https://github.com/karldreher/iaaf/commit/c79f153802849939b5e9ed039294667ff8411a3d))
+
+* fix: better typing ([`50e24e9`](https://github.com/karldreher/iaaf/commit/50e24e90ed4485ff17d693ba527f169dceb94e62))
+
+* fix: tests ([`582bf77`](https://github.com/karldreher/iaaf/commit/582bf7731446f07e93e349daf281eab3c228f6bc))
+
+* fix: item_size query now works ([`8fbd42f`](https://github.com/karldreher/iaaf/commit/8fbd42f9e11c19bd98ed3a5dc28207b90c64eb4c))
+
+### Test
+
+* test: add coverage (#20) ([`6ca3364`](https://github.com/karldreher/iaaf/commit/6ca3364a1d344fc8912481424e87ec80e29a9379))
+
+* test: add coverage report ([`79a84b7`](https://github.com/karldreher/iaaf/commit/79a84b7f34b3055727e77cbcb08cc1ca44189504))
+
+### Unknown
+
+* lint: fix from ruff ([`32c251e`](https://github.com/karldreher/iaaf/commit/32c251e6c5a96a898156aa817c62a3d2df0eb373))
+
+* lint: fixes from ruff ([`b0d6004`](https://github.com/karldreher/iaaf/commit/b0d60048dc7befd30cada07533e4d76ed9b3e1ba))
+
+
 ## v2.4.0 (2024-04-23)
 
 ### Chore
