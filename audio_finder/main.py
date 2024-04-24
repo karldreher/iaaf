@@ -28,7 +28,7 @@ class ArchiveItem:
 
 
 class ArchiveSearch:
-    def __init__(self, title: str, min_size: int, subject: str = None):
+    def __init__(self, title: str, min_size: int=0, subject: str = None):
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
