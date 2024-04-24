@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class ArchiveItem:
-    def __init__(self, item):
+    def __init__(self, item: ia.item.Item):
         self.item = item
         self.metadata = item.metadata
         self.title = item.metadata["title"]
@@ -28,18 +28,21 @@ class ArchiveItem:
 
 
 class ArchiveSearch:
-    def __init__(self, title, subject=None):
+    def __init__(self, title: str, min_size: int = 0, subject: str = None):
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
+        # IA does not seem to support an unbounded item_size query.
+        # Workaround:  Set a max (1TB) which is too impractical to download.
+        self.size = f"item_size:[{str(min_size)} TO 1000000000000]"
         media_type = "mediatype:audio"
         search_terms = filter(
-            lambda x: x is not None, [media_type, self.title, self.subject]
+            lambda x: x is not None, [media_type, self.size, self.title, self.subject]
         )
         self.query = " AND ".join(search_terms)
 
     def search_items(self):
         # search_items yields, so we want to yield from it rather than return
-        yield from session.search_items(self.query)
+        yield from session.search_items(self.query)  # pragma: no cover
 
 
 class Output:
@@ -60,17 +63,18 @@ def parse_size(size):
     return int(size)
 
 
-def search_pipeline(args: argparse.Namespace):
+def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
     Given `title` and `min_size`, search Internet Archive for audio matching the title.
     """
     min_size = parse_size(args.min_size)
-    search = ArchiveSearch(title=args.title, subject=args.subject)
+    search = ArchiveSearch(title=args.title, min_size=min_size, subject=args.subject)
 
     # IF control-c is pressed, exit the loop gracefully
     try:
         logger.info("Searching...")
         items = search.search_items()
+        logger.info(search.query)
         # yaml separator
         print("---")
 
@@ -79,12 +83,6 @@ def search_pipeline(args: argparse.Namespace):
                 item = next(items)
                 g = session.get_item(item["identifier"])
                 n = ArchiveItem(g)
-                # This is implemented here because the item_size query does.
-                # not seem to work on the IA side.
-                # It is expected that the search 'item_size:[1000 TO null]' can work,
-                # but it does not.
-                if n.item_size < min_size:
-                    continue
 
                 # By default, output is yaml
                 print(Output(n).yaml)
@@ -97,7 +95,7 @@ def search_pipeline(args: argparse.Namespace):
         exit()
 
 
-def main():
+def main():  # pragma: no cover
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "--config",
@@ -137,5 +135,5 @@ def main():
     search_pipeline(args)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
