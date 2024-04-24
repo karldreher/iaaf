@@ -14,17 +14,17 @@ def test_archive_search():
     search = ArchiveSearch(title="Kool and the gang")
     assert (
         search.query
-        == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"Kool and the gang"' #noqa: E501
+        == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"Kool and the gang"'  # noqa: E501
     )
     search = ArchiveSearch(title="Parliment Funkadelic")
     assert (
         search.query
-        == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"Parliment Funkadelic"' #noqa: E501
+        == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"Parliment Funkadelic"'  # noqa: E501
     )
     search = ArchiveSearch(title="George Clinton", subject="Funk music")
     assert (
         search.query
-        == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"George Clinton" AND subject:"Funk music"' #noqa: E501
+        == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"George Clinton" AND subject:"Funk music"'  # noqa: E501
     )
 
 
