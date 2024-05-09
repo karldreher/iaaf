@@ -105,7 +105,7 @@ def main():  # pragma: no cover
     )
     argparser.add_argument(
         "title",
-        nargs="?" if "--config" in sys.argv else None,
+        nargs="?" if ("--config" in sys.argv or "--version" in sys.argv) else None,
         help="Title to search for.  Always required.",
     )
     argparser.add_argument(
@@ -122,6 +122,11 @@ def main():  # pragma: no cover
     argparser.add_argument(
         "--verbose", action="store_true", help="Enable verbose logging"
     )
+    argparser.add_argument(
+        "--version",
+        action="store_true",
+        help="Print the version.",
+    )
 
     args = argparser.parse_args()
     # Debug catches a lot of lower level stuff from IA, which we don't need right now.
@@ -131,6 +136,11 @@ def main():  # pragma: no cover
     if args.config:
         print("Enter your Internet Archive credentials.")
         ia.configure()
+        exit()
+    if args.version:
+        from audio_finder import __version__
+
+        print(__version__)
         exit()
     search_pipeline(args)
 
