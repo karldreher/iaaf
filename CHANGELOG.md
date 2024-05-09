@@ -2,6 +2,15 @@
 
 
 
+## v2.5.0 (2024-05-09)
+
+### Feature
+
+* feat: version flag (#22) ([`b7261f5`](https://github.com/karldreher/iaaf/commit/b7261f5ff22493095918355323bdacf83dc01be8))
+
+* feat: version flag ([`f3a7451`](https://github.com/karldreher/iaaf/commit/f3a7451a6a616a920bcdfd3a40304b801e9819e4))
+
+
 ## v2.4.1 (2024-04-24)
 
 ### Chore
