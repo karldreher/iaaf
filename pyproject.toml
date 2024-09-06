@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "iaaf"
-version = "2.5.0"
+version = "2.5.1"
 description = "Internet Archive Audio Finder - iaaf"
 authors = ["Karl Dreher"]
 license = "MIT"

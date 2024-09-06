@@ -2,6 +2,101 @@
 
 
 
+## v2.5.1 (2024-09-06)
+
+### Build
+
+* build(deps): bump certifi from 2024.2.2 to 2024.7.4 (#27) ([`9a47ff0`](https://github.com/karldreher/iaaf/commit/9a47ff0bb28fe8b57add11f6e3371b28643a8350))
+
+* build(deps): bump certifi from 2024.2.2 to 2024.7.4
+
+Bumps [certifi](https://github.com/certifi/python-certifi) from 2024.2.2 to 2024.7.4.
+- [Commits](https://github.com/certifi/python-certifi/compare/2024.02.02...2024.07.04)
+
+---
+updated-dependencies:
+- dependency-name: certifi
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`2395525`](https://github.com/karldreher/iaaf/commit/239552540b7013edcce055f46422bf6209f5d042))
+
+* build(deps-dev): bump jinja2 from 3.1.3 to 3.1.4 (#26) ([`4e0af7e`](https://github.com/karldreher/iaaf/commit/4e0af7ef87e862503964d406a2faf856a5fe4629))
+
+* build(deps-dev): bump jinja2 from 3.1.3 to 3.1.4
+
+Bumps [jinja2](https://github.com/pallets/jinja) from 3.1.3 to 3.1.4.
+- [Release notes](https://github.com/pallets/jinja/releases)
+- [Changelog](https://github.com/pallets/jinja/blob/main/CHANGES.rst)
+- [Commits](https://github.com/pallets/jinja/compare/3.1.3...3.1.4)
+
+---
+updated-dependencies:
+- dependency-name: jinja2
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`0c14821`](https://github.com/karldreher/iaaf/commit/0c148213e69c61e7e703570a6868958b011e0539))
+
+* build(deps): bump requests from 2.31.0 to 2.32.2 (#25) ([`a693f32`](https://github.com/karldreher/iaaf/commit/a693f328d8b6f30c4b9e460492a6a33ea65acbca))
+
+* build(deps): bump requests from 2.31.0 to 2.32.2
+
+Bumps [requests](https://github.com/psf/requests) from 2.31.0 to 2.32.2.
+- [Release notes](https://github.com/psf/requests/releases)
+- [Changelog](https://github.com/psf/requests/blob/main/HISTORY.md)
+- [Commits](https://github.com/psf/requests/compare/v2.31.0...v2.32.2)
+
+---
+updated-dependencies:
+- dependency-name: requests
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`0204536`](https://github.com/karldreher/iaaf/commit/02045364dc8fb9f09196c5d89f6c4bcee0a25801))
+
+* build(deps): bump urllib3 from 2.2.1 to 2.2.2 (#24) ([`75acb09`](https://github.com/karldreher/iaaf/commit/75acb093dbe5528ed5ebe3b44b8748a974ac4c1f))
+
+* build(deps): bump urllib3 from 2.2.1 to 2.2.2
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.2.1 to 2.2.2.
+- [Release notes](https://github.com/urllib3/urllib3/releases)
+- [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst)
+- [Commits](https://github.com/urllib3/urllib3/compare/2.2.1...2.2.2)
+
+---
+updated-dependencies:
+- dependency-name: urllib3
+  dependency-type: indirect
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`f64a40e`](https://github.com/karldreher/iaaf/commit/f64a40ed7f2c3bf03c3f399626dfe5164ed5693b))
+
+### Chore
+
+* chore: format ([`7390354`](https://github.com/karldreher/iaaf/commit/7390354d20d08d239e9f80bb8b38170078817fb0))
+
+* chore: update dependencies ([`e9525f1`](https://github.com/karldreher/iaaf/commit/e9525f1582e4a2d36da7ce6e71d7d543e1504a60))
+
+### Ci
+
+* ci: update token permissions (#23) ([`1c34c46`](https://github.com/karldreher/iaaf/commit/1c34c46451722b9a65efb8735d36dc962c5b4202))
+
+* ci: update python setup version ([`1cbe2ac`](https://github.com/karldreher/iaaf/commit/1cbe2ac2dba15f85bfbfd4ea462b8861a1e09bfa))
+
+* ci: update token permissions ([`f599e22`](https://github.com/karldreher/iaaf/commit/f599e228661befa163b63129cf7e259a54759f30))
+
+### Fix
+
+* fix: add handler for bad input (#28) ([`d84767a`](https://github.com/karldreher/iaaf/commit/d84767a1aa287e6650de70fe19c549ad839b2fcd))
+
+* fix: add exception for bad input ([`9cbf0b1`](https://github.com/karldreher/iaaf/commit/9cbf0b1ed345c64584b369260181c5558dd6d4f9))
+
+### Unknown
+
+* lint: fix lint ([`64196ed`](https://github.com/karldreher/iaaf/commit/64196ed8fc359aeffbbec84ecdd6cfa488172934))
+
+
 ## v2.5.0 (2024-05-09)
 
 ### Feature
