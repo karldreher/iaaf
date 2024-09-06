@@ -17,7 +17,7 @@ jobs:
         run: pipx install poetry
 
       - name: Python setup
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version-file: '.python-version'
           cache: 'poetry'
@@ -40,6 +40,8 @@ jobs:
 
   release:
     needs: test
+    permissions:
+      contents: write
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     runs-on: ubuntu-22.04
     steps:
@@ -52,7 +54,7 @@ jobs:
         run: pipx install poetry
 
       - name: Python setup
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version-file: '.python-version'
           cache: 'poetry'
