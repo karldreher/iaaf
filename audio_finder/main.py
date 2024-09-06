@@ -56,7 +56,7 @@ def parse_size(size):
     Parse size in bytes, or MB, or GB.  Return size in bytes.
     """
     if isinstance(size, int):
-        return size 
+        return size
     if isinstance(size, str) and (size[-2:] == "MB" or size[-2:] == "GB"):
         size = size.upper()
         if size[-2:] == "MB":
@@ -66,7 +66,6 @@ def parse_size(size):
         return int(size)
     else:
         raise ValueError("Size must be in bytes(int), MB, or GB.")
-
 
 
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
@@ -145,6 +144,7 @@ def main():  # pragma: no cover
         exit()
     if args.version:
         from audio_finder import __version__
+
         print(__version__)
         exit()
     search_pipeline(args)
