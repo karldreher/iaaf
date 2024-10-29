@@ -5,7 +5,7 @@ import sys
 import internetarchive as ia
 import yaml
 
-from anything_finder.iaaf_types import MEDIA_TYPES
+from anything_finder.iaaf_types import MEDIA_TYPES, Size
 
 session = ia.get_session()
 logger = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ class Output:
         self.yaml = yaml.dump([self.dict], sort_keys=False)
 
 
-def parse_size(size):
+def parse_size(size: Size) -> int:
     """
     Parse size in bytes, or MB, or GB.  Return size in bytes.
     """
@@ -79,7 +79,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
     Given `title`, `media_type` and `min_size`, search Internet Archive for items matching the title.
     """
-    min_size = parse_size(args.min_size)
+    min_size = parse_size(size=args.min_size)
     search = ArchiveSearch(
         title=args.title,
         media_type=args.media_type,
