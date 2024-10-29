@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "iaaf"
 version = "2.5.1"
-description = "Internet Archive Audio Finder - iaaf"
+description = "Internet Archive Anything Finder - iaaf"
 authors = ["Karl Dreher"]
 license = "MIT"
 readme = "README.md"
 packages = [
-    {include = "audio_finder"}
+    {include = "anything_finder"}
 ]
 
 [tool.poetry.dependencies]
@@ -15,7 +15,7 @@ internetarchive = "^4.0.1"
 pyyaml = "^6.0.1"
 
 [tool.poetry.scripts]
-iaaf = 'audio_finder.main:main'
+iaaf = 'anything_finder.main:main'
 
 [tool.poetry.group.release]
 optional = true
@@ -41,7 +41,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
-version_variables = ["audio_finder/__init__.py:__version__"]
+version_variables = ["anything_finder/__init__.py:__version__"]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 
 branch = "main"

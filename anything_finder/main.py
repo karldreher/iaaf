@@ -28,13 +28,15 @@ class ArchiveItem:
 
 
 class ArchiveSearch:
-    def __init__(self, title: str, min_size: int = 0, subject: str = None):
+    def __init__(
+        self, title: str, media_type: str, min_size: int = 0, subject: str = None
+    ):
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
         # Workaround:  Set a max (1TB) which is too impractical to download.
         self.size = f"item_size:[{str(min_size)} TO 1000000000000]"
-        media_type = "mediatype:audio"
+        media_type = f"mediatype:{media_type}"
         search_terms = filter(
             lambda x: x is not None, [media_type, self.size, self.title, self.subject]
         )
@@ -73,7 +75,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     Given `title` and `min_size`, search Internet Archive for audio matching the title.
     """
     min_size = parse_size(args.min_size)
-    search = ArchiveSearch(title=args.title, min_size=min_size, subject=args.subject)
+    search = ArchiveSearch(title=args.title, media_type=args.media_type, min_size=min_size, subject=args.subject)
 
     # IF control-c is pressed, exit the loop gracefully
     try:
@@ -106,7 +108,15 @@ def main():  # pragma: no cover
         "--config",
         "--configure",
         action="store_true",
-        help="Configure authentication to Internet Archive.",
+        help="Configure authentication to Internet Archive.  Ignores all other arguments.",
+    )
+    argparser.add_argument(
+        "--media_type",
+        "--media-type",
+        "--type",
+        type=str,
+        nargs="?" if ("--config" in sys.argv or "--version" in sys.argv) else None,
+        help="Media type to search for.  Always required.",
     )
     argparser.add_argument(
         "title",
@@ -143,7 +153,7 @@ def main():  # pragma: no cover
         ia.configure()
         exit()
     if args.version:
-        from audio_finder import __version__
+        from anything_finder import __version__
 
         print(__version__)
         exit()

@@ -1,5 +1,4 @@
 import pytest
-
 from audio_finder.main import ArchiveItem, ArchiveSearch, Output, parse_size, yaml
 
 
