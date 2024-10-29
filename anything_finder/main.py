@@ -75,7 +75,7 @@ def parse_size(size):
 
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
-    Given `title` and `min_size`, search Internet Archive for audio matching the title.
+    Given `title`, `media_type` and `min_size`, search Internet Archive for items matching the title.
     """
     min_size = parse_size(args.min_size)
     search = ArchiveSearch(title=args.title, media_type=args.media_type, min_size=min_size, subject=args.subject)
