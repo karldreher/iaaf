@@ -5,6 +5,8 @@ import sys
 import internetarchive as ia
 import yaml
 
+from anything_finder.iaaf_types import MEDIA_TYPES
+
 session = ia.get_session()
 logger = logging.getLogger(__name__)
 
@@ -61,7 +63,7 @@ def parse_size(size):
         return size
     if isinstance(size, str):
         size = size.upper()
-        if (size[-2:] == "MB" or size[-2:] == "GB"):
+        if size[-2:] == "MB" or size[-2:] == "GB":
             if size[-2:] == "MB":
                 return int(size[:-2]) * 1024 * 1024
             elif size[-2:] == "GB":
@@ -78,7 +80,12 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     Given `title`, `media_type` and `min_size`, search Internet Archive for items matching the title.
     """
     min_size = parse_size(args.min_size)
-    search = ArchiveSearch(title=args.title, media_type=args.media_type, min_size=min_size, subject=args.subject)
+    search = ArchiveSearch(
+        title=args.title,
+        media_type=args.media_type,
+        min_size=min_size,
+        subject=args.subject,
+    )
 
     # IF control-c is pressed, exit the loop gracefully
     try:
@@ -118,6 +125,7 @@ def main():  # pragma: no cover
         "--media-type",
         "--type",
         type=str,
+        choices=MEDIA_TYPES,
         nargs="?" if ("--config" in sys.argv or "--version" in sys.argv) else None,
         help="Media type to search for.  Always required.",
     )
