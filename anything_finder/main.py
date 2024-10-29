@@ -59,13 +59,16 @@ def parse_size(size):
     """
     if isinstance(size, int):
         return size
-    if isinstance(size, str) and (size[-2:] == "MB" or size[-2:] == "GB"):
+    if isinstance(size, str):
         size = size.upper()
-        if size[-2:] == "MB":
-            return int(size[:-2]) * 1024 * 1024
-        elif size[-2:] == "GB":
-            return int(size[:-2]) * 1024 * 1024 * 1024
-        return int(size)
+        if (size[-2:] == "MB" or size[-2:] == "GB"):
+            if size[-2:] == "MB":
+                return int(size[:-2]) * 1024 * 1024
+            elif size[-2:] == "GB":
+                return int(size[:-2]) * 1024 * 1024 * 1024
+            return int(size)
+        else:
+            raise ValueError("Size must be in bytes(int), MB, or GB.")
     else:
         raise ValueError("Size must be in bytes(int), MB, or GB.")
 

@@ -1,5 +1,5 @@
 import pytest
-from audio_finder.main import ArchiveItem, ArchiveSearch, Output, parse_size, yaml
+from anything_finder.main import ArchiveItem, ArchiveSearch, Output, parse_size, yaml
 
 
 class Mock(object):
@@ -8,7 +8,9 @@ class Mock(object):
 
 def test_parse_size():
     assert parse_size("1GB") == 1073741824
+    assert parse_size("1gB") == 1073741824
     assert parse_size("1MB") == 1048576
+    assert parse_size("1mb") == 1048576
     assert parse_size(1111111) == 1111111
 
 
