@@ -22,17 +22,17 @@ def test_parse_size_bad():
 
 
 def test_archive_search():
-    search = ArchiveSearch(title="Kool and the gang")
+    search = ArchiveSearch(title="Kool and the gang",media_type="audio")
     assert (
         search.query
         == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"Kool and the gang"'  # noqa: E501
     )
-    search = ArchiveSearch(title="Parliment Funkadelic")
+    search = ArchiveSearch(title="Parliment Funkadelic",media_type="audio", )
     assert (
         search.query
         == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"Parliment Funkadelic"'  # noqa: E501
     )
-    search = ArchiveSearch(title="George Clinton", subject="Funk music")
+    search = ArchiveSearch(title="George Clinton", media_type="audio", subject="Funk music")
     assert (
         search.query
         == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"George Clinton" AND subject:"Funk music"'  # noqa: E501
