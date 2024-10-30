@@ -1,25 +1,27 @@
 import pytest
 
 from anything_finder.main import ArchiveItem, ArchiveSearch, Output, parse_size, yaml
-
+from anything_finder.iaaf_types import Size
 
 class Mock(object):
     pass
 
 
 def test_parse_size():
-    assert parse_size("1GB") == 1073741824
-    assert parse_size("1gB") == 1073741824
-    assert parse_size("1MB") == 1048576
-    assert parse_size("1mb") == 1048576
-    assert parse_size(1111111) == 1111111
+    assert Size(size=1).size_in_bytes == 1
+    assert Size(size="1GB").size_in_bytes == 1073741824
+    assert Size(size="1gB").size_in_bytes == 1073741824
+    assert Size(size="1MB").size_in_bytes == 1048576
+    assert Size(size="1mb").size_in_bytes == 1048576
+    assert Size(size=1111111).size_in_bytes == 1111111
 
 
-def test_parse_size_bad():
-    bad_inputs = ["-1", "100%", "1.5KB", None, "", "brrrrrrrrrrr"]
-    for input in bad_inputs:
-        with pytest.raises(ValueError):
-            parse_size(input)
+@pytest.mark.parametrize("bad_input", ["-1", "100%", "1.5KB", None, "", "brrrrrrrrrrr"])
+def test_parse_size_bad(bad_input):
+    with pytest.raises(ValueError):
+        # TODO: field validator should remove size_in_bytes from this test (i think)
+        Size(size=bad_input).size_in_bytes
+        
 
 
 def test_archive_search():

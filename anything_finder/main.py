@@ -33,6 +33,7 @@ class ArchiveSearch:
     def __init__(
         self, title: str, media_type: str, min_size: int = 0, subject: str = None
     ):
+        # Title may not default to None, as it is required.
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
@@ -55,32 +56,12 @@ class Output:
         self.yaml = yaml.dump([self.dict], sort_keys=False)
 
 
-def parse_size(size: Size) -> int:
-    """
-    Parse size in bytes, or MB, or GB.  Return size in bytes.
-    """
-    if isinstance(size, int):
-        return size
-    if isinstance(size, str):
-        size = size.upper()
-        if size[-2:] == "MB" or size[-2:] == "GB":
-            if size[-2:] == "MB":
-                return int(size[:-2]) * 1024 * 1024
-            elif size[-2:] == "GB":
-                return int(size[:-2]) * 1024 * 1024 * 1024
-            return int(size)
-        else:
-            raise ValueError("Size must be in bytes(int), MB, or GB.")
-    else:
-        raise ValueError("Size must be in bytes(int), MB, or GB.")
-
-
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
     Given `title`, `media_type` and `min_size`, 
     search Internet Archive for items matching the title.
     """
-    min_size = parse_size(size=args.min_size)
+    min_size = Size(size=args.min_size).size_in_bytes
     search = ArchiveSearch(
         title=args.title,
         media_type=args.media_type,
@@ -88,7 +69,6 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
         subject=args.subject,
     )
 
-    # IF control-c is pressed, exit the loop gracefully
     try:
         logger.info("Searching...")
         items = search.search_items()
@@ -107,6 +87,8 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
             except StopIteration:
                 logger.info("No more results.")
                 break
+
+    # IF control-c is pressed, exit the loop gracefully
     except KeyboardInterrupt:
         print("\r", end="")
         logger.info("Exiting due to user requested stop...")
