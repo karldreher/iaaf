@@ -77,7 +77,8 @@ def parse_size(size: Size) -> int:
 
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
-    Given `title`, `media_type` and `min_size`, search Internet Archive for items matching the title.
+    Given `title`, `media_type` and `min_size`, 
+    search Internet Archive for items matching the title.
     """
     min_size = parse_size(size=args.min_size)
     search = ArchiveSearch(
@@ -118,7 +119,8 @@ def main():  # pragma: no cover
         "--config",
         "--configure",
         action="store_true",
-        help="Configure authentication to Internet Archive.  Ignores all other arguments.",
+        help="Configure authentication to Internet Archive.  \
+            Ignores all other arguments.",
     )
     argparser.add_argument(
         "--media_type",
