@@ -1,13 +1,14 @@
 import pytest
 
-from anything_finder.main import ArchiveItem, ArchiveSearch, Output, parse_size, yaml
 from anything_finder.iaaf_types import Size
+from anything_finder.main import ArchiveItem, ArchiveSearch, Output, yaml
+
 
 class Mock(object):
     pass
 
 
-def test_parse_size():
+def test_size():
     assert Size(size=1).size_in_bytes == 1
     assert Size(size="1GB").size_in_bytes == 1073741824
     assert Size(size="1gB").size_in_bytes == 1073741824
@@ -17,11 +18,14 @@ def test_parse_size():
 
 
 @pytest.mark.parametrize("bad_input", ["-1", "100%", "1.5KB", None, "", "brrrrrrrrrrr"])
-def test_parse_size_bad(bad_input):
+def test_size_bad(bad_input):
+    # While apparently repetitive, this tests that an exception is raised both
+    # on instantiation and on the size_in_bytes property.
+    # (Which is implied, but tested for paranoia.)
     with pytest.raises(ValueError):
-        # TODO: field validator should remove size_in_bytes from this test (i think)
+        Size(size=bad_input)
+    with pytest.raises(ValueError):
         Size(size=bad_input).size_in_bytes
-        
 
 
 def test_archive_search():

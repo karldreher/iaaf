@@ -58,7 +58,7 @@ class Output:
 
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
-    Given `title`, `media_type` and `min_size`, 
+    Given `title`, `media_type` and `min_size`,
     search Internet Archive for items matching the title.
     """
     min_size = Size(size=args.min_size).size_in_bytes
