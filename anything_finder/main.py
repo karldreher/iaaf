@@ -31,14 +31,18 @@ class ArchiveItem:
 
 class ArchiveSearch:
     def __init__(
-        self, title: str, media_type: str, min_size: int = 0, subject: str = None
+        self, 
+        title: str, 
+        media_type: str, 
+        min_size: Size = Size(size=0), 
+        subject: str = None
     ):
         # Title may not default to None, as it is required.
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
         # Workaround:  Set a max (1TB) which is too impractical to download.
-        self.size = f"item_size:[{str(min_size)} TO 1000000000000]"
+        self.size = f"item_size:[{str(min_size.size_in_bytes)} TO 1000000000000]"
         media_type = f"mediatype:{media_type}"
         search_terms = filter(
             lambda x: x is not None, [media_type, self.size, self.title, self.subject]
@@ -61,11 +65,10 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     Given `title`, `media_type` and `min_size`,
     search Internet Archive for items matching the title.
     """
-    min_size = Size(size=args.min_size).size_in_bytes
     search = ArchiveSearch(
         title=args.title,
         media_type=args.media_type,
-        min_size=min_size,
+        min_size=Size(size=args.min_size),
         subject=args.subject,
     )
 
@@ -139,6 +142,7 @@ def main():  # pragma: no cover
     )
 
     args = argparser.parse_args()
+
     # Debug catches a lot of lower level stuff from IA, which we don't need right now.
     # In the future, may consider additional verbosity levels.
     logging.basicConfig(level=(logging.INFO if args.verbose else logging.WARN))
@@ -147,11 +151,12 @@ def main():  # pragma: no cover
         print("Enter your Internet Archive credentials.")
         ia.configure()
         exit()
+
     if args.version:
         from anything_finder import __version__
-
         print(__version__)
         exit()
+
     search_pipeline(args)
 
 
