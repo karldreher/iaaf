@@ -59,8 +59,10 @@ class ArchiveSearch:
             lambda x: x is not None, [media_type, self.size, self.title, self.subject]
         )
         self.query = " AND ".join(search_terms)
+        logger.info(self.query)
 
     def search_items(self):
+        logger.info("Searching...")
         # search_items yields, so we want to yield from it rather than return
         yield from session.search_items(self.query)  # pragma: no cover
 
@@ -69,6 +71,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     Given `title`, `media_type` and `min_size`,
     search Internet Archive for items matching the title.
     """
+
     search = ArchiveSearch(
         title=args.title,
         media_type=args.media_type,
@@ -77,18 +80,14 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     )
 
     try:
-        logger.info("Searching...")
         items = search.search_items()
-        logger.info(search.query)
         # yaml separator
+        # TODO: account for JSON output
         print("---")
 
         while True:
             try:
-                item = session.get_item(
-                    next(items)["identifier"]
-                )
-
+                item = session.get_item(next(items)["identifier"])
                 # By default, output is yaml
                 print(ArchiveItem(item).output)
             except StopIteration:
@@ -162,7 +161,6 @@ def main():  # pragma: no cover
         exit()
 
     search_pipeline(args)
-
 
 if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())
