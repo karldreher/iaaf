@@ -1,7 +1,7 @@
 import argparse
 import logging
 import sys
-
+import json
 import internetarchive as ia
 import yaml
 
@@ -18,7 +18,11 @@ class ArchiveItem:
         self.title = item.metadata["title"]
         self.item_size = item.item_size
         self.url = f"http://archive.org/details/{self}"
-
+        self.dict = {
+            "title": self.title,
+            "item_size": self.item_size,
+            "url": self.url,
+        }
     def __repr__(self):
         return self.metadata["identifier"]
 
@@ -28,6 +32,13 @@ class ArchiveItem:
     def download_url(self):
         self.item.download(dry_run=True)
 
+    @property
+    def output(self, format: str = "yaml"):
+        if format == "yaml":
+            return yaml.dump([self.dict], sort_keys=False)
+        if format == "json":
+            return json.dumps(self.dict)
+        raise ValueError("Output format must be yaml or json.")
 
 class ArchiveSearch:
     def __init__(
@@ -52,13 +63,6 @@ class ArchiveSearch:
     def search_items(self):
         # search_items yields, so we want to yield from it rather than return
         yield from session.search_items(self.query)  # pragma: no cover
-
-
-class Output:
-    def __init__(self, item: ArchiveItem):
-        self.dict = {"title": item.title, "size": item.item_size, "url": item.url}
-        self.yaml = yaml.dump([self.dict], sort_keys=False)
-
 
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
@@ -86,7 +90,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
                 )
 
                 # By default, output is yaml
-                print(Output(ArchiveItem(item)).yaml)
+                print(ArchiveItem(item).output)
             except StopIteration:
                 logger.info("No more results.")
                 break

@@ -1,8 +1,8 @@
 import pytest
 
 from anything_finder.iaaf_types import Size
-from anything_finder.main import ArchiveItem, ArchiveSearch, Output, yaml
-
+from anything_finder.main import ArchiveItem, ArchiveSearch
+import yaml
 
 class Mock(object):
     pass
@@ -58,11 +58,12 @@ def test_output():
     item.metadata = {"title": "Cameo - Word Up", "identifier": "Mock"}
     item.item_size = "12345"
     item.url = "https://example.org/mock"
-    output = Output(ArchiveItem(item))
-    assert output.yaml == yaml.dump([output.dict], sort_keys=False)
+
+    output = ArchiveItem(item).output
+    assert output == yaml.dump([ArchiveItem(item).dict], sort_keys=False)
 
     item.metadata = {"title": "Cameo - Word Up: Colon Edition", "identifier": "Mock"}
-    output = Output(ArchiveItem(item))
-    assert output.dict["title"] == "Cameo - Word Up: Colon Edition"
+    output = ArchiveItem(item).output
+    assert ArchiveItem(item).dict["title"] == "Cameo - Word Up: Colon Edition"
     # Ensure that a colon-ified string gets properly formatted and doesn't cause havoc.
-    assert output.yaml.splitlines()[0] == "- title: 'Cameo - Word Up: Colon Edition'"
+    assert output.splitlines()[0] == "- title: 'Cameo - Word Up: Colon Edition'"
