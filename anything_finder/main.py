@@ -81,12 +81,12 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
 
         while True:
             try:
-                item = next(items)
-                g = session.get_item(item["identifier"])
-                n = ArchiveItem(g)
+                item = session.get_item(
+                    next(items)["identifier"]
+                )
 
                 # By default, output is yaml
-                print(Output(n).yaml)
+                print(Output(ArchiveItem(item)).yaml)
             except StopIteration:
                 logger.info("No more results.")
                 break
