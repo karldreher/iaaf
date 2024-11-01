@@ -92,6 +92,9 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
         while True:
             try:
                 item = session.get_item(next(items)["identifier"])
+                if not item.item_size or item.metadata["title"] is None:
+                    logger.info(f"Skipping item with identifier '{item.identifier}' and size '{item.item_size}'")
+                    continue
                 # By default, output is yaml
                 print(ArchiveItem(item).output)
 
