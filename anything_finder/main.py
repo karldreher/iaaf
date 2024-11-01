@@ -1,9 +1,10 @@
 import argparse
+import json
 import logging
 import sys
-import json
-from internetarchive import get_session, configure, Item
+
 import yaml
+from internetarchive import Item, configure, get_session
 
 from anything_finder.iaaf_types import MEDIA_TYPES, Size
 
@@ -23,6 +24,7 @@ class ArchiveItem:
             "item_size": self.item_size,
             "url": self.url,
         }
+
     def __repr__(self):
         return self.metadata["identifier"]
 
@@ -40,13 +42,14 @@ class ArchiveItem:
             return json.dumps(self.dict)
         raise ValueError("Output format must be yaml or json.")
 
+
 class ArchiveSearch:
     def __init__(
-        self, 
-        title: str, 
-        media_type: str, 
-        min_size: Size = Size(size=0), 
-        subject: str = None
+        self,
+        title: str,
+        media_type: str,
+        min_size: Size = Size(size=0),
+        subject: str = None,
     ):
         # Title may not default to None, as it is required.
         self.title = f'title:"{title}"'
@@ -65,6 +68,7 @@ class ArchiveSearch:
         logger.info("Searching...")
         # search_items yields, so we want to yield from it rather than return
         yield from session.search_items(self.query)  # pragma: no cover
+
 
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
@@ -90,7 +94,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
                 item = session.get_item(next(items)["identifier"])
                 # By default, output is yaml
                 print(ArchiveItem(item).output)
-            
+
             except StopIteration:
                 logger.info("No more results.")
                 break
@@ -158,10 +162,12 @@ def main():  # pragma: no cover
 
     if args.version:
         from anything_finder import __version__
+
         print(__version__)
         exit()
 
     search_pipeline(args)
+
 
 if __name__ == "__main__":  # pragma: no cover
     sys.exit(main())

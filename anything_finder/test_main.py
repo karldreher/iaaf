@@ -1,8 +1,9 @@
 import pytest
+import yaml
 
 from anything_finder.iaaf_types import Size
 from anything_finder.main import ArchiveItem, ArchiveSearch
-import yaml
+
 
 class Mock(object):
     pass
