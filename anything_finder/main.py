@@ -2,17 +2,17 @@ import argparse
 import logging
 import sys
 import json
-import internetarchive as ia
+from internetarchive import get_session, configure, Item
 import yaml
 
 from anything_finder.iaaf_types import MEDIA_TYPES, Size
 
-session = ia.get_session()
+session = get_session()
 logger = logging.getLogger(__name__)
 
 
 class ArchiveItem:
-    def __init__(self, item: ia.item.Item):
+    def __init__(self, item: Item):
         self.item = item
         self.metadata = item.metadata
         self.title = item.metadata["title"]
@@ -90,6 +90,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
                 item = session.get_item(next(items)["identifier"])
                 # By default, output is yaml
                 print(ArchiveItem(item).output)
+            
             except StopIteration:
                 logger.info("No more results.")
                 break
@@ -152,7 +153,7 @@ def main():  # pragma: no cover
 
     if args.config:
         print("Enter your Internet Archive credentials.")
-        ia.configure()
+        configure()
         exit()
 
     if args.version:
