@@ -1,21 +1,29 @@
 import argparse
+import json
 import logging
 import sys
 
-import internetarchive as ia
 import yaml
+from internetarchive import Item, configure, get_session
 
-session = ia.get_session()
+from anything_finder.iaaf_types import MEDIA_TYPES, Size
+
+session = get_session()
 logger = logging.getLogger(__name__)
 
 
 class ArchiveItem:
-    def __init__(self, item: ia.item.Item):
+    def __init__(self, item: Item):
         self.item = item
         self.metadata = item.metadata
         self.title = item.metadata["title"]
         self.item_size = item.item_size
         self.url = f"http://archive.org/details/{self}"
+        self.dict = {
+            "title": self.title,
+            "item_size": self.item_size,
+            "url": self.url,
+        }
 
     def __repr__(self):
         return self.metadata["identifier"]
@@ -26,74 +34,76 @@ class ArchiveItem:
     def download_url(self):
         self.item.download(dry_run=True)
 
+    @property
+    def output(self, format: str = "yaml"):
+        if format == "yaml":
+            return yaml.dump([self.dict], sort_keys=False)
+        if format == "json":
+            return json.dumps(self.dict)
+        raise ValueError("Output format must be yaml or json.")
+
 
 class ArchiveSearch:
-    def __init__(self, title: str, min_size: int = 0, subject: str = None):
+    def __init__(
+        self,
+        title: str,
+        media_type: str,
+        min_size: Size = Size(size=0),
+        subject: str = None,
+    ):
+        # Title may not default to None, as it is required.
         self.title = f'title:"{title}"'
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
         # Workaround:  Set a max (1TB) which is too impractical to download.
-        self.size = f"item_size:[{str(min_size)} TO 1000000000000]"
-        media_type = "mediatype:audio"
+        self.size = f"item_size:[{str(min_size.size_in_bytes)} TO 1000000000000]"
+        media_type = f"mediatype:{media_type}"
         search_terms = filter(
             lambda x: x is not None, [media_type, self.size, self.title, self.subject]
         )
         self.query = " AND ".join(search_terms)
+        logger.info(self.query)
 
     def search_items(self):
+        logger.info("Searching...")
         # search_items yields, so we want to yield from it rather than return
         yield from session.search_items(self.query)  # pragma: no cover
 
 
-class Output:
-    def __init__(self, item: ArchiveItem):
-        self.dict = {"title": item.title, "size": item.item_size, "url": item.url}
-        self.yaml = yaml.dump([self.dict], sort_keys=False)
-
-
-def parse_size(size):
-    """
-    Parse size in bytes, or MB, or GB.  Return size in bytes.
-    """
-    if isinstance(size, int):
-        return size
-    if isinstance(size, str) and (size[-2:] == "MB" or size[-2:] == "GB"):
-        size = size.upper()
-        if size[-2:] == "MB":
-            return int(size[:-2]) * 1024 * 1024
-        elif size[-2:] == "GB":
-            return int(size[:-2]) * 1024 * 1024 * 1024
-        return int(size)
-    else:
-        raise ValueError("Size must be in bytes(int), MB, or GB.")
-
-
 def search_pipeline(args: argparse.Namespace):  # pragma: no cover
     """
-    Given `title` and `min_size`, search Internet Archive for audio matching the title.
+    Given `title`, `media_type` and `min_size`,
+    search Internet Archive for items matching the title.
     """
-    min_size = parse_size(args.min_size)
-    search = ArchiveSearch(title=args.title, min_size=min_size, subject=args.subject)
 
-    # IF control-c is pressed, exit the loop gracefully
+    search = ArchiveSearch(
+        title=args.title,
+        media_type=args.media_type,
+        min_size=Size(size=args.min_size),
+        subject=args.subject,
+    )
+
     try:
-        logger.info("Searching...")
         items = search.search_items()
-        logger.info(search.query)
         # yaml separator
+        # TODO: account for JSON output
         print("---")
 
         while True:
             try:
-                item = next(items)
-                g = session.get_item(item["identifier"])
-                n = ArchiveItem(g)
-
+                item = session.get_item(next(items)["identifier"])
+                if not item.item_size or item.metadata["title"] is None:
+                    logger.info(f"Skipping item with identifier \
+                                '{item.identifier}' and size '{item.item_size}'")
+                    continue
                 # By default, output is yaml
-                print(Output(n).yaml)
+                print(ArchiveItem(item).output)
+
             except StopIteration:
                 logger.info("No more results.")
                 break
+
+    # IF control-c is pressed, exit the loop gracefully
     except KeyboardInterrupt:
         print("\r", end="")
         logger.info("Exiting due to user requested stop...")
@@ -106,7 +116,17 @@ def main():  # pragma: no cover
         "--config",
         "--configure",
         action="store_true",
-        help="Configure authentication to Internet Archive.",
+        help="Configure authentication to Internet Archive.  \
+            Ignores all other arguments.",
+    )
+    argparser.add_argument(
+        "--media_type",
+        "--media-type",
+        "--type",
+        type=str,
+        choices=MEDIA_TYPES,
+        nargs="?" if ("--config" in sys.argv or "--version" in sys.argv) else None,
+        help="Media type to search for.  Always required.",
     )
     argparser.add_argument(
         "title",
@@ -134,19 +154,22 @@ def main():  # pragma: no cover
     )
 
     args = argparser.parse_args()
+
     # Debug catches a lot of lower level stuff from IA, which we don't need right now.
     # In the future, may consider additional verbosity levels.
     logging.basicConfig(level=(logging.INFO if args.verbose else logging.WARN))
 
     if args.config:
         print("Enter your Internet Archive credentials.")
-        ia.configure()
+        configure()
         exit()
+
     if args.version:
-        from audio_finder import __version__
+        from anything_finder import __version__
 
         print(__version__)
         exit()
+
     search_pipeline(args)
 
 
