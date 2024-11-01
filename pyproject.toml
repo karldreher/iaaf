@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "iaaf"
-version = "2.5.1"
+version = "3.0.0"
 description = "Internet Archive Anything Finder - iaaf"
 authors = ["Karl Dreher"]
 license = "MIT"

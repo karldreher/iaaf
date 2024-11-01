@@ -2,6 +2,69 @@
 
 
 
+## v3.0.0 (2024-11-01)
+
+### Breaking
+
+* feat!: the anything finder (#29) ([`ea194a8`](https://github.com/karldreher/iaaf/commit/ea194a8a687e15d46144d74b2b18ca416dbbae83))
+
+* refactor!: remove output class and move to a prop ([`b123b82`](https://github.com/karldreher/iaaf/commit/b123b82b39b1d16d170f0d25d4903afa6909ca86))
+
+* feat!: constrain types ([`22f73ab`](https://github.com/karldreher/iaaf/commit/22f73ab71cc964cf9b33de6e9289e08e9caba5dc))
+
+* feat!: change interfaces to use Size ([`6e062f1`](https://github.com/karldreher/iaaf/commit/6e062f1ca63c7b5b79837725383455fd720d68af))
+
+* feat!: the anything finder ([`5be80fc`](https://github.com/karldreher/iaaf/commit/5be80fcbdc1a7db4ec209a67c74bf7e15f145ed2))
+
+### Build
+
+* build: update dev deps ([`ba3b902`](https://github.com/karldreher/iaaf/commit/ba3b902d670f577ffbe59224cdef1d2e3e6980f3))
+
+* build: update deps ([`eadcc7c`](https://github.com/karldreher/iaaf/commit/eadcc7cb114aaac03a33c6bccb47e4cef01a27f5))
+
+### Chore
+
+* chore: lint ([`4ee3d9a`](https://github.com/karldreher/iaaf/commit/4ee3d9ac02c92d5a1ec8828121105238682f2a57))
+
+* chore: poetry lock ([`564ea2c`](https://github.com/karldreher/iaaf/commit/564ea2c7139d14982eff3c109e99e16dc178d07c))
+
+* chore: newline ([`9327b64`](https://github.com/karldreher/iaaf/commit/9327b64dc642ad1b967abb945a7bf6b3c745f446))
+
+* chore: lint ([`6c230bd`](https://github.com/karldreher/iaaf/commit/6c230bd9a876c6b582c3807d2c2aca6463cc0394))
+
+* chore: bump python ([`1bc298a`](https://github.com/karldreher/iaaf/commit/1bc298a24f786b5fecb3b7264524a28fae7e75b9))
+
+### Documentation
+
+* docs: update docs ([`6e4dab9`](https://github.com/karldreher/iaaf/commit/6e4dab9e8bdf693a70babd2dfcc69cd5e9796361))
+
+### Feature
+
+* feat: move logging to respective class ([`14a8ef8`](https://github.com/karldreher/iaaf/commit/14a8ef87e4ff78462d7fa86e4ad28f28d567a560))
+
+* feat: add typing ([`83d11a5`](https://github.com/karldreher/iaaf/commit/83d11a5e957a04ec921e079e7df5b33a5ae1536f))
+
+* feat: constrain media types ([`13d308c`](https://github.com/karldreher/iaaf/commit/13d308c7999aff81e60b60790acd26f83684f267))
+
+### Fix
+
+* fix: issues with null ([`2cb8587`](https://github.com/karldreher/iaaf/commit/2cb8587c8cbbd722544fc3807a1d43e05ef9d0d1))
+
+* fix: validate field ([`3491220`](https://github.com/karldreher/iaaf/commit/349122038b02c8ae8a2ddf27471a7f39dfcece51))
+
+* fix: lint ([`0d59b74`](https://github.com/karldreher/iaaf/commit/0d59b74add5c3e5f1ebd338c62c637052cbb83c7))
+
+* fix: new required param ([`c4edbaf`](https://github.com/karldreher/iaaf/commit/c4edbafdc53d81442aaf13c8b45b1aca59d26f4c))
+
+* fix: convert to upper case at correct step ([`1f5f866`](https://github.com/karldreher/iaaf/commit/1f5f86621aba42e02e7efc0fd9d633a93ad1cace))
+
+### Refactor
+
+* refactor: tree-shaking ([`8a29e04`](https://github.com/karldreher/iaaf/commit/8a29e048cb2d906e1a6371102e2f861263ca442c))
+
+* refactor: lower loc ([`b835039`](https://github.com/karldreher/iaaf/commit/b8350391bee8c28eda62601808f3b33963d8b550))
+
+
 ## v2.5.1 (2024-09-06)
 
 ### Build
