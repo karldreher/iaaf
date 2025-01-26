@@ -48,7 +48,7 @@ addopts = "--cov -v"
 
 [tool.semantic_release]
 version_variables = ["anything_finder/__init__.py:__version__"]
-version_toml = ["pyproject.toml:tool.poetry.version"]
+version_toml = ["pyproject.toml:project.version"]
 
 branch = "main"
 upload_to_pypi = false
