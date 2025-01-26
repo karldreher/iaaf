@@ -1,34 +1,43 @@
-[tool.poetry]
+[project]
 name = "iaaf"
 version = "3.0.0"
 description = "Internet Archive Anything Finder - iaaf"
-authors = ["Karl Dreher"]
-license = "MIT"
+authors = [{ name = "Karl Dreher" }]
+requires-python = "~=3.12"
 readme = "README.md"
-packages = [
-    {include = "anything_finder"}
+license = "MIT"
+dependencies = [
+    "internetarchive>=4.1.0,<5",
+    "pyyaml>=6.0.2,<7",
+    "pydantic>=2.9.2,<3",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-internetarchive = "^4.1.0"
-pyyaml = "^6.0.2"
-pydantic = "^2.9.2"
+[project.scripts]
+iaaf = "anything_finder.main:main"
 
-[tool.poetry.scripts]
-iaaf = 'anything_finder.main:main'
+[dependency-groups]
+release = ["python-semantic-release>=8.1.1,<9"]
+test = [
+    "pytest>=8.3.3,<9",
+    "pytest-cov>=5.0.0,<6",
+    "ruff>=0.7.1,<0.8",
+]
 
-[tool.poetry.group.release]
-optional = true
+[tool.uv]
+default-groups = [
+    "release",
+    "test",
+]
 
-[tool.poetry.group.release.dependencies]
-python-semantic-release = "^8.1.1"
+[tool.hatch.build.targets.sdist]
+include = ["anything_finder"]
 
+[tool.hatch.build.targets.wheel]
+include = ["anything_finder"]
 
-[tool.poetry.group.test.dependencies]
-pytest = "^8.3.3"
-pytest-cov = "^5.0.0"
-ruff = "^0.7.1"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff.lint]
 select = ["E", "F","I"]
@@ -36,10 +45,6 @@ ignore = ["F401"]
 
 [tool.pytest.ini_options]
 addopts = "--cov -v"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
 version_variables = ["anything_finder/__init__.py:__version__"]
