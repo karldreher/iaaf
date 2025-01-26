@@ -2,6 +2,31 @@
 
 
 
+## v4.0.0 (2025-01-26)
+
+### Breaking
+
+* build!: switch to uv (#30) ([`bc519d1`](https://github.com/karldreher/iaaf/commit/bc519d16373b45ab59c8c6e451bef6aa36fea65e))
+
+* build!: switch to uv ([`63786d6`](https://github.com/karldreher/iaaf/commit/63786d62f993efd43054986b5da20c038d0175b2))
+
+### Ci
+
+* ci: fix semantic release (#31) ([`0a153d3`](https://github.com/karldreher/iaaf/commit/0a153d3eab10a209be516930741f930eb24cabe2))
+
+* ci: fix semantic release ([`56c1647`](https://github.com/karldreher/iaaf/commit/56c164704b6fb41ac266b518307b8c64f97fcb87))
+
+### Documentation
+
+* docs: update install instructions ([`4a904af`](https://github.com/karldreher/iaaf/commit/4a904af22203002cd898516a8715f59227d48dee))
+
+### Fix
+
+* fix: build (#32) ([`9d4fdd7`](https://github.com/karldreher/iaaf/commit/9d4fdd702f10926e8049678ce0f22094f0a6480d))
+
+* fix: build ([`128b0a3`](https://github.com/karldreher/iaaf/commit/128b0a3a3e5ecf13c699a96d29a733049d12e6d1))
+
+
 ## v3.0.0 (2024-11-01)
 
 ### Breaking
