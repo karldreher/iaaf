@@ -16,7 +16,7 @@ dependencies = [
 iaaf = "anything_finder.main:main"
 
 [dependency-groups]
-release = ["python-semantic-release>=8.1.1,<9"]
+release = ["python-semantic-release>=9.16.1,<10"]
 test = [
     "pytest>=8.3.3,<9",
     "pytest-cov>=5.0.0,<6",

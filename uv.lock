@@ -75,6 +75,18 @@ wheels = [
 ]
 
 [[package]]
+name = "click-option-group"
+version = "0.5.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e7/b8/91054601a2e05fd9060cb1baf56be5b24145817b059e078669e1099529c7/click-option-group-0.5.6.tar.gz", hash = "sha256:97d06703873518cc5038509443742b25069a3c7562d1ea72ff08bfadde1ce777", size = 16517 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/af/75/81ea958bc0f7e410257cb2a42531b93a7695a31930cde87192c010a52c50/click_option_group-0.5.6-py3-none-any.whl", hash = "sha256:38a26d963ee3ad93332ddf782f9259c5bdfe405e73408d943ef5e7d0c3767ec7", size = 12467 },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -188,7 +200,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-release = [{ name = "python-semantic-release", specifier = ">=8.1.1,<9" }]
+release = [{ name = "python-semantic-release", specifier = ">=9.16.1,<10" }]
 test = [
     { name = "pytest", specifier = ">=8.3.3,<9" },
     { name = "pytest-cov", specifier = ">=5.0.0,<6" },
@@ -450,10 +462,11 @@ wheels = [
 
 [[package]]
 name = "python-semantic-release"
-version = "8.7.0"
+version = "9.17.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
+    { name = "click-option-group" },
     { name = "dotty-dict" },
     { name = "gitpython" },
     { name = "importlib-resources" },
@@ -465,9 +478,9 @@ dependencies = [
     { name = "shellingham" },
     { name = "tomlkit" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/14/4b/5f5184068e410f365f969faa5835f28d6d6258dc362b749bed057ad72198/python-semantic-release-8.7.0.tar.gz", hash = "sha256:6bbd11b1e8ac70e0946ed6d257094c851b2507edfbc393eef6093d0ed1dbe0b4", size = 51940 }
+sdist = { url = "https://files.pythonhosted.org/packages/8a/13/7954250ed1a21c360691004ec8ffed5ca83c5d93e43b6b8f0514a69f0166/python_semantic_release-9.17.0.tar.gz", hash = "sha256:c54bb896c7bcbc865f1f0b19380298cd8012834e95148cb5ec8afc3a0c6307c9", size = 286962 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/2c/03a3bf3f8a0d8f533d25c43e89193a30ee54ac4c1b60323d12363c52fd75/python_semantic_release-8.7.0-py3-none-any.whl", hash = "sha256:a016b1cf43a5f3667ce2cfddd8e30b6210a2d52b0e2f6b487aae1164f2540eaa", size = 69542 },
+    { url = "https://files.pythonhosted.org/packages/7c/18/2c370597093ca0905d00796e550efdb1dddbd92a78f07ed8b76bc97a8ed5/python_semantic_release-9.17.0-py3-none-any.whl", hash = "sha256:1150450c78137c5c49cad89a6f039d30dca3404f964e8226d6acfafa3d9d9c24", size = 122658 },
 ]
 
 [[package]]
