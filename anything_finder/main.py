@@ -62,7 +62,7 @@ class ArchiveSearch:
             When True, it's not a title, but a general query.
 
         """
-        # Title may not default to None, as it is required.  
+        # Title may not default to None, as it is required.
         # But, it can be modified by query_all.
         self.title = f'title:"{title}"' if not query_all else f"({title})"
         self.subject = f'subject:"{subject}"' if subject else None
