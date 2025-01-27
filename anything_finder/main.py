@@ -58,10 +58,12 @@ class ArchiveSearch:
         @param media_type: Media type to search for.
         @param min_size: Minimum size of item to search for.
         @param subject: Optional subject to search for.
-        @param query_all: Query modifier for title.  When True, it's not a title, but a general query.
+        @param query_all: Query modifier for title.  \
+            When True, it's not a title, but a general query.
 
         """
-        # Title may not default to None, as it is required.  But, it can be modified by query_all.
+        # Title may not default to None, as it is required.  
+        # But, it can be modified by query_all.
         self.title = f'title:"{title}"' if not query_all else f"({title})"
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
@@ -145,7 +147,9 @@ def main():  # pragma: no cover
         "--query_all",
         "--query-all",
         action="store_true",
-        help="Modifies title argument to be a query.  In this case, it's not a search on title, but globally on all metadata.",
+        help="Modifies title argument to be a query.  \
+            In this case, it's not a search on title, \
+                but globally on all metadata.",
     )
     argparser.add_argument(
         "title",
