@@ -52,6 +52,16 @@ def test_archive_search():
     )
 
 
+def test_archive_search_query_all():
+    search = ArchiveSearch(
+        title="Curtis Mayfield - Pusherman", media_type="audio", query_all=True
+    )
+    assert (
+        search.query
+        == "mediatype:audio AND item_size:[0 TO 1000000000000] AND (Curtis Mayfield - Pusherman)"  # noqa: E501
+    )
+
+
 def test_output():
     ## For these tests, we only need title, item_size, and url.
     # Metadata is a required parameter.

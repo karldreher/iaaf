@@ -50,9 +50,21 @@ class ArchiveSearch:
         media_type: str,
         min_size: Size = Size(size=0),
         subject: str = None,
+        query_all: bool = False,
     ):
+        """
+        Search Internet Archive for items matching the title.
+        @param title: Title to search for.
+        @param media_type: Media type to search for.
+        @param min_size: Minimum size of item to search for.
+        @param subject: Optional subject to search for.
+        @param query_all: Query modifier for title.  \
+            When True, it's not a title, but a general query.
+
+        """
         # Title may not default to None, as it is required.
-        self.title = f'title:"{title}"'
+        # But, it can be modified by query_all.
+        self.title = f'title:"{title}"' if not query_all else f"({title})"
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
         # Workaround:  Set a max (1TB) which is too impractical to download.
@@ -81,6 +93,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
         media_type=args.media_type,
         min_size=Size(size=args.min_size),
         subject=args.subject,
+        query_all=args.query_all,
     )
 
     try:
@@ -93,8 +106,10 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
             try:
                 item = session.get_item(next(items)["identifier"])
                 if not item.item_size or item.metadata["title"] is None:
-                    logger.info(f"Skipping item with identifier \
-                                '{item.identifier}' and size '{item.item_size}'")
+                    logger.info(
+                        f"Skipping item with identifier \
+                                '{item.identifier}' and size '{item.item_size}'"
+                    )
                     continue
                 # By default, output is yaml
                 print(ArchiveItem(item).output)
@@ -127,6 +142,14 @@ def main():  # pragma: no cover
         choices=MEDIA_TYPES,
         nargs="?" if ("--config" in sys.argv or "--version" in sys.argv) else None,
         help="Media type to search for.  Always required.",
+    )
+    argparser.add_argument(
+        "--query_all",
+        "--query-all",
+        action="store_true",
+        help="Modifies title argument to be a query.  \
+            In this case, it's not a search on title, \
+                but globally on all metadata.",
     )
     argparser.add_argument(
         "title",
