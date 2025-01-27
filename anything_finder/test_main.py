@@ -58,8 +58,7 @@ def test_archive_search_query_all():
     )
     assert (
         search.query
-        == "mediatype:audio AND item_size:[0 TO 1000000000000] \
-            AND (Curtis Mayfield - Pusherman)"
+        == "mediatype:audio AND item_size:[0 TO 1000000000000] AND (Curtis Mayfield - Pusherman)" # noqa: E501
     )
 
 
