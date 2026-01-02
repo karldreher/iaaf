@@ -49,7 +49,7 @@ class ArchiveSearch:
         title: str,
         media_type: str,
         min_size: Size = Size(size=0),
-        subject: str = None,
+        subject: str | None = None,
         query_all: bool = False,
     ):
         """
@@ -70,9 +70,8 @@ class ArchiveSearch:
         # Workaround:  Set a max (1TB) which is too impractical to download.
         self.size = f"item_size:[{str(min_size.size_in_bytes)} TO 1000000000000]"
         media_type = f"mediatype:{media_type}"
-        search_terms = filter(
-            lambda x: x is not None, [media_type, self.size, self.title, self.subject]
-        )
+        search_terms = [x for x in [media_type, self.size, self.title, self.subject] 
+                if x is not None]
         self.query = " AND ".join(search_terms)
         logger.info(self.query)
 
