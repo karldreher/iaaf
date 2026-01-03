@@ -1,6 +1,41 @@
 # CHANGELOG
 
 
+## v4.2.0 (2026-01-03)
+
+### Bug Fixes
+
+- Constraint warning
+  ([`2b97eca`](https://github.com/karldreher/iaaf/commit/2b97ecaf5adb8b9878864d20c662945e2f1d2f69))
+
+- Small fixes to types
+  ([`43cd32f`](https://github.com/karldreher/iaaf/commit/43cd32fb3cf805c160743225b2bf94e6bd323853))
+
+### Continuous Integration
+
+- Update runners
+  ([`afa9d47`](https://github.com/karldreher/iaaf/commit/afa9d47af31d0c86547e2ecf84e8b0df5abaa975))
+
+### Features
+
+- Max_size
+  ([`9b41fab`](https://github.com/karldreher/iaaf/commit/9b41fab4544503b0799c78035f05b766f674803a))
+
+- Max_size ([#34](https://github.com/karldreher/iaaf/pull/34),
+  [`ca86559`](https://github.com/karldreher/iaaf/commit/ca865594c38cd1b6d0f2b8f00353d89902fd2e56))
+
+### Testing
+
+- Add a test
+  ([`d2de3da`](https://github.com/karldreher/iaaf/commit/d2de3dacee91dd223ca7ccfe7c9e2925d2078bb9))
+
+- Fix imports
+  ([`f09103a`](https://github.com/karldreher/iaaf/commit/f09103af77ba99f1cc3758aabf550f8a7d7e0e9b))
+
+- Typing changes
+  ([`df5cbdc`](https://github.com/karldreher/iaaf/commit/df5cbdc8897a910c8627ade8dfc277b0591a89c6))
+
+
 ## v4.1.0 (2025-01-27)
 
 ### Chores
