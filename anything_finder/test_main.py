@@ -51,6 +51,17 @@ def test_archive_search():
         == 'mediatype:audio AND item_size:[0 TO 1000000000000] AND title:"George Clinton" AND subject:"Funk music"'  # noqa: E501
     )
 
+def test_archive_search_max_and_min_size():
+    search = ArchiveSearch(
+        title="James Brown",
+        media_type="audio",
+        min_size=Size(size="10MB"),
+        max_size=Size(size="100MB"),
+    )
+    assert (
+        search.query
+        == 'mediatype:audio AND item_size:[10485760 TO 104857600] AND title:"James Brown"'  # noqa: E501
+    )
 
 def test_archive_search_query_all():
     search = ArchiveSearch(
