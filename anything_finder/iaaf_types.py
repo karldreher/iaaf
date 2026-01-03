@@ -35,4 +35,6 @@ class Size(BaseModel):
                 return int(size[:-2]) * 1024**2
             elif size[-2:] == "GB":
                 return int(size[:-2]) * 1024**3
-            return int(self.size)
+            else:
+                return int(self.size)
+        raise ValueError("Size must be in bytes(int), MB, or GB.")

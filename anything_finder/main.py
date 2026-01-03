@@ -49,7 +49,8 @@ class ArchiveSearch:
         title: str,
         media_type: str,
         min_size: Size = Size(size=0),
-        subject: str = None,
+        max_size: Size = Size(size=1000000000000),
+        subject: str | None = None,
         query_all: bool = False,
     ):
         """
@@ -68,11 +69,16 @@ class ArchiveSearch:
         self.subject = f'subject:"{subject}"' if subject else None
         # IA does not seem to support an unbounded item_size query.
         # Workaround:  Set a max (1TB) which is too impractical to download.
-        self.size = f"item_size:[{str(min_size.size_in_bytes)} TO 1000000000000]"
-        media_type = f"mediatype:{media_type}"
-        search_terms = filter(
-            lambda x: x is not None, [media_type, self.size, self.title, self.subject]
+        self.size = (
+            f"item_size:[{str(min_size.size_in_bytes)} TO "
+            f"{str(max_size.size_in_bytes)}]"
         )
+        media_type = f"mediatype:{media_type}"
+        search_terms = [
+            x
+            for x in [media_type, self.size, self.title, self.subject]
+            if x is not None
+        ]
         self.query = " AND ".join(search_terms)
         logger.info(self.query)
 
@@ -92,6 +98,7 @@ def search_pipeline(args: argparse.Namespace):  # pragma: no cover
         title=args.title,
         media_type=args.media_type,
         min_size=Size(size=args.min_size),
+        max_size=Size(size=args.max_size),
         subject=args.subject,
         query_all=args.query_all,
     )
@@ -165,6 +172,14 @@ def main():  # pragma: no cover
         type=str,
         default="0MB",
         help="Minimum size of item to search for.  \
+            Supports expressions in MB or GB, like 1MB or 1GB.",
+    )
+    argparser.add_argument(
+        "--max_size",
+        "--max-size",
+        type=str,
+        default="1000GB",
+        help="Maximum size of item to search for.  \
             Supports expressions in MB or GB, like 1MB or 1GB.",
     )
     argparser.add_argument(

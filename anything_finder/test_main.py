@@ -1,12 +1,10 @@
+from unittest.mock import MagicMock
+
 import pytest
 import yaml
 
 from anything_finder.iaaf_types import Size
 from anything_finder.main import ArchiveItem, ArchiveSearch
-
-
-class Mock(object):
-    pass
 
 
 def test_size():
@@ -52,6 +50,19 @@ def test_archive_search():
     )
 
 
+def test_archive_search_max_and_min_size():
+    search = ArchiveSearch(
+        title="James Brown",
+        media_type="audio",
+        min_size=Size(size="10MB"),
+        max_size=Size(size="100MB"),
+    )
+    assert (
+        search.query
+        == 'mediatype:audio AND item_size:[10485760 TO 104857600] AND title:"James Brown"'  # noqa: E501
+    )
+
+
 def test_archive_search_query_all():
     search = ArchiveSearch(
         title="Curtis Mayfield - Pusherman", media_type="audio", query_all=True
@@ -65,7 +76,7 @@ def test_archive_search_query_all():
 def test_output():
     ## For these tests, we only need title, item_size, and url.
     # Metadata is a required parameter.
-    item = Mock()
+    item = MagicMock()
     item.metadata = {"title": "Cameo - Word Up", "identifier": "Mock"}
     item.item_size = "12345"
     item.url = "https://example.org/mock"
