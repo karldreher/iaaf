@@ -1,12 +1,9 @@
 import pytest
 import yaml
+from unittest.mock import MagicMock
 
 from anything_finder.iaaf_types import Size
 from anything_finder.main import ArchiveItem, ArchiveSearch
-
-
-class Mock(object):
-    pass
 
 
 def test_size():
@@ -76,7 +73,7 @@ def test_archive_search_query_all():
 def test_output():
     ## For these tests, we only need title, item_size, and url.
     # Metadata is a required parameter.
-    item = Mock()
+    item = MagicMock()
     item.metadata = {"title": "Cameo - Word Up", "identifier": "Mock"}
     item.item_size = "12345"
     item.url = "https://example.org/mock"
