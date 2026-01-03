@@ -1,6 +1,7 @@
+from unittest.mock import MagicMock
+
 import pytest
 import yaml
-from unittest.mock import MagicMock
 
 from anything_finder.iaaf_types import Size
 from anything_finder.main import ArchiveItem, ArchiveSearch
