@@ -3,11 +3,7 @@
 
 
 ## Installation
-It is reccomended to use Pipx or UV, according to your preference.
-```
-pipx install git+https://github.com/karldreher/iaaf.git
-```
-
+It is recommended to install with [uv](https://docs.astral.sh/uv/).
 ```
 uv tool install git+https://github.com/karldreher/iaaf
 ```
