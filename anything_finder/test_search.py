@@ -148,6 +148,11 @@ def test_pipeline_json_is_valid_array(monkeypatch, capsys, identifiers):
     assert [entry["title"] for entry in parsed] == [f"Title {i}" for i in identifiers]
     # Commas trail their item; no line starts with one.
     assert not any(line.startswith(",") for line in out.splitlines())
+    # Every item line ends with a comma except the last one.
+    item_lines = [line for line in out.splitlines() if line.startswith("{")]
+    assert [line.endswith(",") for line in item_lines] == [True] * (
+        len(identifiers) - 1
+    ) + [False] * bool(identifiers)
 
 
 def test_pipeline_yaml_unchanged(monkeypatch, capsys):
