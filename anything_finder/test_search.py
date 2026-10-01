@@ -143,8 +143,11 @@ def _run_pipeline(monkeypatch, identifiers, output_format):
 @pytest.mark.parametrize("identifiers", [[], ["a"], ["a", "b"]])
 def test_pipeline_json_is_valid_array(monkeypatch, capsys, identifiers):
     _run_pipeline(monkeypatch, identifiers, "json")
-    parsed = json.loads(capsys.readouterr().out)
+    out = capsys.readouterr().out
+    parsed = json.loads(out)
     assert [entry["title"] for entry in parsed] == [f"Title {i}" for i in identifiers]
+    # Commas trail their item; no line starts with one.
+    assert not any(line.startswith(",") for line in out.splitlines())
 
 
 def test_pipeline_yaml_unchanged(monkeypatch, capsys):

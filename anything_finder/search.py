@@ -116,7 +116,7 @@ def search_pipeline(
     )
 
     is_json = output_format == "json"
-    first = True
+    pending: str | None = None
     stop = False
 
     def request_stop(signum, frame):
@@ -146,11 +146,14 @@ def search_pipeline(
                     )
                     continue
                 rendered = ArchiveItem(item).render(output_format)
-                # Comma-first keeps every printed line complete, so the cursor is
-                # at the start of a line while waiting on the network.
-                separator = "," if is_json and not first else ""
-                first = False
-                print(f"{separator}{rendered}", flush=True)
+                if not is_json:
+                    print(rendered, flush=True)
+                    continue
+                # Hold each JSON item until its successor arrives, so the comma
+                # trails the item on the same line and the last item has none.
+                if pending is not None:
+                    print(f"{pending},", flush=True)
+                pending = rendered
 
             except StopIteration:
                 logger.info("No more results.")
@@ -167,8 +170,11 @@ def search_pipeline(
         return
     finally:
         signal.signal(signal.SIGINT, previous_handler)
-        # Always close the array so the JSON stays valid, even on control-c.
+        # Always flush the held item and close the array so the JSON stays
+        # valid, even on control-c.
         if is_json:
+            if pending is not None:
+                print(pending)
             print("]")
 
 
