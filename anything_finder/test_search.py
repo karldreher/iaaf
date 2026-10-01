@@ -4,7 +4,7 @@ import pytest
 import yaml
 
 from anything_finder.iaaf_types import Size
-from anything_finder.main import ArchiveItem, ArchiveSearch
+from anything_finder.search import ArchiveItem, ArchiveSearch
 
 
 def test_size():
