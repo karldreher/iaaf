@@ -1,4 +1,5 @@
 import json
+import signal
 from unittest.mock import MagicMock
 
 import pytest
@@ -151,3 +152,42 @@ def test_pipeline_yaml_unchanged(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert out.startswith("---\n")
     assert yaml.safe_load(out)[0]["title"] == "Title a"
+
+
+def _run_pipeline_interrupted(monkeypatch, output_format):
+    """Interrupt on the second item; get_item swallows nothing, the flag stops us."""
+    calls = []
+
+    def get_item(identifier):
+        calls.append(identifier)
+        if len(calls) == 2:
+            signal.raise_signal(signal.SIGINT)
+        item = MagicMock()
+        item.metadata = {"title": f"Title {identifier}", "identifier": identifier}
+        item.item_size = 100
+        return item
+
+    monkeypatch.setattr(search_module, "session", MagicMock(get_item=get_item))
+    monkeypatch.setattr(
+        search_module, "ArchiveSearch", lambda **kw: _FakeSearch(["a", "b", "c"])
+    )
+    previous = signal.getsignal(signal.SIGINT)
+    search_module.search_pipeline(
+        title="x", media_type="audio", output_format=output_format
+    )
+    assert signal.getsignal(signal.SIGINT) is previous
+    return calls
+
+
+def test_pipeline_json_stops_on_sigint(monkeypatch, capsys):
+    calls = _run_pipeline_interrupted(monkeypatch, "json")
+    parsed = json.loads(capsys.readouterr().out)
+    # The interrupted item is dropped and nothing is fetched afterward.
+    assert [entry["title"] for entry in parsed] == ["Title a"]
+    assert calls == ["a", "b"]
+
+
+def test_pipeline_yaml_stops_on_sigint(monkeypatch, capsys):
+    _run_pipeline_interrupted(monkeypatch, "yaml")
+    out = capsys.readouterr().out
+    assert [entry["title"] for entry in yaml.safe_load(out)] == ["Title a"]

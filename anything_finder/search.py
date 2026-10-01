@@ -1,5 +1,7 @@
 import json
 import logging
+import signal
+import sys
 
 import yaml
 from internetarchive import Item, get_session
@@ -115,39 +117,62 @@ def search_pipeline(
 
     is_json = output_format == "json"
     first = True
+    stop = False
+
+    def request_stop(signum, frame):
+        # Record the request rather than raising: the HTTP stack underneath
+        # get_item() can swallow KeyboardInterrupt, so the loop checks this flag.
+        # A second Ctrl-C restores the default handler for an immediate exit.
+        nonlocal stop
+        stop = True
+        signal.signal(signal.SIGINT, signal.default_int_handler)
+
+    previous_handler = signal.signal(signal.SIGINT, request_stop)
 
     try:
         items = search.search_items()
         # yaml document separator, or the opening of the JSON array
         print("[" if is_json else "---")
 
-        while True:
+        while not stop:
             try:
                 item = session.get_item(next(items)["identifier"])
+                if stop:
+                    break
                 if not item.item_size or item.metadata["title"] is None:
                     logger.info(
                         f"Skipping item with identifier \
                                 '{item.identifier}' and size '{item.item_size}'"
                     )
                     continue
-                if is_json and not first:
-                    print(",")
+                rendered = ArchiveItem(item).render(output_format)
+                # Comma-first keeps every printed line complete, so the cursor is
+                # at the start of a line while waiting on the network.
+                separator = "," if is_json and not first else ""
                 first = False
-                # JSON items are comma-separated; the closing bracket adds the newline.
-                print(
-                    ArchiveItem(item).render(output_format), end="" if is_json else "\n"
-                )
+                print(f"{separator}{rendered}", flush=True)
 
             except StopIteration:
                 logger.info("No more results.")
                 break
 
-    # IF control-c is pressed, exit the loop gracefully
+        if stop:
+            _clear_interrupt_echo()
+            logger.info("Exiting due to user requested stop...")
+
+    # Fallback for a second Ctrl-C, which raises immediately.
     except KeyboardInterrupt:
-        print("\r", end="")
+        _clear_interrupt_echo()
         logger.info("Exiting due to user requested stop...")
         return
     finally:
+        signal.signal(signal.SIGINT, previous_handler)
         # Always close the array so the JSON stays valid, even on control-c.
         if is_json:
-            print("\n]")
+            print("]")
+
+
+def _clear_interrupt_echo():
+    """Remove the terminal's `^C` echo from the current line."""
+    if sys.stdout.isatty():
+        print("\r\x1b[K", end="", flush=True)
