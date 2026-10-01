@@ -204,6 +204,7 @@ name = "iaaf"
 version = "4.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "click" },
     { name = "internetarchive" },
     { name = "pydantic" },
     { name = "pyyaml" },
@@ -221,6 +222,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
+    { name = "click", specifier = ">=8.1,<9" },
     { name = "internetarchive", specifier = "~=5.11.1" },
     { name = "pydantic", specifier = "~=2.13.5" },
     { name = "pyyaml", specifier = ">=6.0.3,<7" },
