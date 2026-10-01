@@ -1,6 +1,30 @@
 # CHANGELOG
 
 
+## v5.0.0 (2026-10-01)
+
+### Build System
+
+- Update deps
+  ([`c9fe515`](https://github.com/karldreher/iaaf/commit/c9fe515216bc45f4a7f0a612a3144458e1128992))
+
+- Update deps ([#35](https://github.com/karldreher/iaaf/pull/35),
+  [`24c8688`](https://github.com/karldreher/iaaf/commit/24c86882fb4aae20c92e7a7208ace05fa84e48e5))
+
+### Documentation
+
+- Update install guidance
+  ([`898ff94`](https://github.com/karldreher/iaaf/commit/898ff94974d3cdc589804229ce67b2e638089149))
+
+- Update install guidance ([#36](https://github.com/karldreher/iaaf/pull/36),
+  [`0b2cf76`](https://github.com/karldreher/iaaf/commit/0b2cf7610220307a09f319844048c59f6886711b))
+
+### Features
+
+- Replace argparse cli with click ([#37](https://github.com/karldreher/iaaf/pull/37),
+  [`680a672`](https://github.com/karldreher/iaaf/commit/680a672f8fb1bd903a9a0fa9d5a7c85f9a2b26ce))
+
+
 ## v4.2.0 (2026-01-03)
 
 ### Bug Fixes
@@ -205,9 +229,7 @@
 Bumps [certifi](https://github.com/certifi/python-certifi) from 2024.2.2 to 2024.7.4. -
   [Commits](https://github.com/certifi/python-certifi/compare/2024.02.02...2024.07.04)
 
---- updated-dependencies: - dependency-name: certifi dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: certifi dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -223,9 +245,7 @@ Bumps [requests](https://github.com/psf/requests) from 2.31.0 to 2.32.2. - [Rele
   [Changelog](https://github.com/psf/requests/blob/main/HISTORY.md) -
   [Commits](https://github.com/psf/requests/compare/v2.31.0...v2.32.2)
 
---- updated-dependencies: - dependency-name: requests dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: requests dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -240,9 +260,7 @@ Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.2.1 to 2.2.2. - [Rele
   [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
   [Commits](https://github.com/urllib3/urllib3/compare/2.2.1...2.2.2)
 
---- updated-dependencies: - dependency-name: urllib3 dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: urllib3 dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -257,9 +275,7 @@ Bumps [jinja2](https://github.com/pallets/jinja) from 3.1.3 to 3.1.4. - [Release
   [Changelog](https://github.com/pallets/jinja/blob/main/CHANGES.rst) -
   [Commits](https://github.com/pallets/jinja/compare/3.1.3...3.1.4)
 
---- updated-dependencies: - dependency-name: jinja2 dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: jinja2 dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -374,9 +390,7 @@ Bumps [idna](https://github.com/kjd/idna) from 3.4 to 3.7. - [Release
   [Changelog](https://github.com/kjd/idna/blob/master/HISTORY.rst) -
   [Commits](https://github.com/kjd/idna/compare/v3.4...v3.7)
 
---- updated-dependencies: - dependency-name: idna dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: idna dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -391,9 +405,7 @@ Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.37
   [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES) -
   [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.37...3.1.41)
 
---- updated-dependencies: - dependency-name: gitpython dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: gitpython dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -409,9 +421,7 @@ Bumps [jinja2](https://github.com/pallets/jinja) from 3.1.2 to 3.1.3. - [Release
   [Changelog](https://github.com/pallets/jinja/blob/main/CHANGES.rst) -
   [Commits](https://github.com/pallets/jinja/compare/3.1.2...3.1.3)
 
---- updated-dependencies: - dependency-name: jinja2 dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: jinja2 dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
@@ -484,9 +494,7 @@ Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.0.5 to 2.0.7. - [Rele
   [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
   [Commits](https://github.com/urllib3/urllib3/compare/v2.0.5...2.0.7)
 
---- updated-dependencies: - dependency-name: urllib3 dependency-type: indirect
-
-...
+--- updated-dependencies: - dependency-name: urllib3 dependency-type: indirect ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
 
