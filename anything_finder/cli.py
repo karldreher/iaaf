@@ -64,6 +64,14 @@ def main(verbose: bool):
     callback=_validate_size,
     help="Maximum item size, in MB or GB (e.g. 1MB, 1GB).",
 )
+@click.option(
+    "--format",
+    "output_format",
+    type=click.Choice(["yaml", "json"]),
+    default="yaml",
+    show_default=True,
+    help="Output format.",
+)
 def search(
     title: str,
     media_type: str,
@@ -71,6 +79,7 @@ def search(
     subject: str | None,
     min_size: str,
     max_size: str,
+    output_format: str,
 ):
     """Search Internet Archive for items matching TITLE."""
     search_pipeline(
@@ -80,6 +89,7 @@ def search(
         max_size=max_size,
         subject=subject,
         query_all=query_all,
+        output_format=output_format,
     )
 
 

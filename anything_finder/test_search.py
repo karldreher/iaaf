@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 import yaml
 
+from anything_finder import search as search_module
 from anything_finder.iaaf_types import Size
 from anything_finder.search import ArchiveItem, ArchiveSearch
 
@@ -112,3 +113,41 @@ def test_output():
     assert ArchiveItem(item).dict["title"] == "Cameo - Word Up: Colon Edition"
     # Ensure that a colon-ified string gets properly formatted and doesn't cause havoc.
     assert output.splitlines()[0] == "- title: 'Cameo - Word Up: Colon Edition'"
+
+
+class _FakeSearch:
+    def __init__(self, identifiers):
+        self.identifiers = identifiers
+
+    def search_items(self):
+        yield from ({"identifier": i} for i in self.identifiers)
+
+
+def _run_pipeline(monkeypatch, identifiers, output_format):
+    def get_item(identifier):
+        item = MagicMock()
+        item.metadata = {"title": f"Title {identifier}", "identifier": identifier}
+        item.item_size = 100
+        return item
+
+    monkeypatch.setattr(search_module, "session", MagicMock(get_item=get_item))
+    monkeypatch.setattr(
+        search_module, "ArchiveSearch", lambda **kw: _FakeSearch(identifiers)
+    )
+    search_module.search_pipeline(
+        title="x", media_type="audio", output_format=output_format
+    )
+
+
+@pytest.mark.parametrize("identifiers", [[], ["a"], ["a", "b"]])
+def test_pipeline_json_is_valid_array(monkeypatch, capsys, identifiers):
+    _run_pipeline(monkeypatch, identifiers, "json")
+    parsed = json.loads(capsys.readouterr().out)
+    assert [entry["title"] for entry in parsed] == [f"Title {i}" for i in identifiers]
+
+
+def test_pipeline_yaml_unchanged(monkeypatch, capsys):
+    _run_pipeline(monkeypatch, ["a"], "yaml")
+    out = capsys.readouterr().out
+    assert out.startswith("---\n")
+    assert yaml.safe_load(out)[0]["title"] == "Title a"

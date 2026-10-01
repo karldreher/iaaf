@@ -96,10 +96,12 @@ def search_pipeline(
     max_size: str = "1000GB",
     subject: str | None = None,
     query_all: bool = False,
-):  # pragma: no cover
+    output_format: str = "yaml",
+):
     """
     Given `title`, `media_type` and `min_size`,
     search Internet Archive for items matching the title.
+    Results are streamed as yaml documents or as a single JSON array.
     """
 
     search = ArchiveSearch(
@@ -111,11 +113,13 @@ def search_pipeline(
         query_all=query_all,
     )
 
+    is_json = output_format == "json"
+    first = True
+
     try:
         items = search.search_items()
-        # yaml separator
-        # TODO: account for JSON output
-        print("---")
+        # yaml document separator, or the opening of the JSON array
+        print("[" if is_json else "---")
 
         while True:
             try:
@@ -126,8 +130,13 @@ def search_pipeline(
                                 '{item.identifier}' and size '{item.item_size}'"
                     )
                     continue
-                # By default, output is yaml
-                print(ArchiveItem(item).output)
+                if is_json and not first:
+                    print(",")
+                first = False
+                # JSON items are comma-separated; the closing bracket adds the newline.
+                print(
+                    ArchiveItem(item).render(output_format), end="" if is_json else "\n"
+                )
 
             except StopIteration:
                 logger.info("No more results.")
@@ -138,3 +147,7 @@ def search_pipeline(
         print("\r", end="")
         logger.info("Exiting due to user requested stop...")
         return
+    finally:
+        # Always close the array so the JSON stays valid, even on control-c.
+        if is_json:
+            print("\n]")
