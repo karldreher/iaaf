@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-iaaf = "anything_finder.main:main"
+iaaf = "anything_finder.cli:main"
 
 [dependency-groups]
 release = ["python-semantic-release>=9.16.1,<10"]
