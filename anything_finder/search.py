@@ -1,5 +1,7 @@
 import json
 import logging
+import signal
+import sys
 
 import yaml
 from internetarchive import Item, get_session
@@ -32,13 +34,16 @@ class ArchiveItem:
     def download_url(self):
         self.item.download(dry_run=True)
 
-    @property
-    def output(self, format: str = "yaml"):
+    def render(self, format: str) -> str:
         if format == "yaml":
             return yaml.dump([self.dict], sort_keys=False)
         if format == "json":
             return json.dumps(self.dict)
         raise ValueError("Output format must be yaml or json.")
+
+    @property
+    def output(self) -> str:
+        return self.render("yaml")
 
 
 class ArchiveSearch:
@@ -93,10 +98,12 @@ def search_pipeline(
     max_size: str = "1000GB",
     subject: str | None = None,
     query_all: bool = False,
-):  # pragma: no cover
+    output_format: str = "yaml",
+):
     """
     Given `title`, `media_type` and `min_size`,
     search Internet Archive for items matching the title.
+    Results are streamed as yaml documents or as a single JSON array.
     """
 
     search = ArchiveSearch(
@@ -108,30 +115,70 @@ def search_pipeline(
         query_all=query_all,
     )
 
+    is_json = output_format == "json"
+    pending: str | None = None
+    stop = False
+
+    def request_stop(signum, frame):
+        # Record the request rather than raising: the HTTP stack underneath
+        # get_item() can swallow KeyboardInterrupt, so the loop checks this flag.
+        # A second Ctrl-C restores the default handler for an immediate exit.
+        nonlocal stop
+        stop = True
+        signal.signal(signal.SIGINT, signal.default_int_handler)
+
+    previous_handler = signal.signal(signal.SIGINT, request_stop)
+
     try:
         items = search.search_items()
-        # yaml separator
-        # TODO: account for JSON output
-        print("---")
+        # yaml document separator, or the opening of the JSON array
+        print("[" if is_json else "---")
 
-        while True:
+        while not stop:
             try:
                 item = session.get_item(next(items)["identifier"])
+                if stop:
+                    break
                 if not item.item_size or item.metadata["title"] is None:
                     logger.info(
                         f"Skipping item with identifier \
                                 '{item.identifier}' and size '{item.item_size}'"
                     )
                     continue
-                # By default, output is yaml
-                print(ArchiveItem(item).output)
+                rendered = ArchiveItem(item).render(output_format)
+                if not is_json:
+                    print(rendered, flush=True)
+                    continue
+                # Hold each JSON item until its successor arrives, so the comma
+                # trails the item on the same line and the last item has none.
+                if pending is not None:
+                    print(f"{pending},", flush=True)
+                pending = rendered
 
             except StopIteration:
                 logger.info("No more results.")
                 break
 
-    # IF control-c is pressed, exit the loop gracefully
+        if stop:
+            _clear_interrupt_echo()
+            logger.info("Exiting due to user requested stop...")
+
+    # Fallback for a second Ctrl-C, which raises immediately.
     except KeyboardInterrupt:
-        print("\r", end="")
+        _clear_interrupt_echo()
         logger.info("Exiting due to user requested stop...")
         return
+    finally:
+        signal.signal(signal.SIGINT, previous_handler)
+        # Always flush the held item and close the array so the JSON stays
+        # valid, even on control-c.
+        if is_json:
+            if pending is not None:
+                print(pending)
+            print("]")
+
+
+def _clear_interrupt_echo():
+    """Remove the terminal's `^C` echo from the current line."""
+    if sys.stdout.isatty():
+        print("\r\x1b[K", end="", flush=True)

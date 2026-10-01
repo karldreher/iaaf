@@ -1,8 +1,11 @@
+import json
+import signal
 from unittest.mock import MagicMock
 
 import pytest
 import yaml
 
+from anything_finder import search as search_module
 from anything_finder.iaaf_types import Size
 from anything_finder.search import ArchiveItem, ArchiveSearch
 
@@ -73,6 +76,28 @@ def test_archive_search_query_all():
     )
 
 
+def _mock_item():
+    item = MagicMock()
+    item.metadata = {"title": "Cameo - Word Up", "identifier": "Mock"}
+    item.item_size = "12345"
+    return item
+
+
+def test_render_json():
+    archive_item = ArchiveItem(_mock_item())
+    assert json.loads(archive_item.render("json")) == archive_item.dict
+
+
+def test_render_yaml_matches_output():
+    archive_item = ArchiveItem(_mock_item())
+    assert archive_item.render("yaml") == archive_item.output
+
+
+def test_render_invalid_format():
+    with pytest.raises(ValueError):
+        ArchiveItem(_mock_item()).render("xml")
+
+
 def test_output():
     ## For these tests, we only need title, item_size, and url.
     # Metadata is a required parameter.
@@ -89,3 +114,88 @@ def test_output():
     assert ArchiveItem(item).dict["title"] == "Cameo - Word Up: Colon Edition"
     # Ensure that a colon-ified string gets properly formatted and doesn't cause havoc.
     assert output.splitlines()[0] == "- title: 'Cameo - Word Up: Colon Edition'"
+
+
+class _FakeSearch:
+    def __init__(self, identifiers):
+        self.identifiers = identifiers
+
+    def search_items(self):
+        yield from ({"identifier": i} for i in self.identifiers)
+
+
+def _run_pipeline(monkeypatch, identifiers, output_format):
+    def get_item(identifier):
+        item = MagicMock()
+        item.metadata = {"title": f"Title {identifier}", "identifier": identifier}
+        item.item_size = 100
+        return item
+
+    monkeypatch.setattr(search_module, "session", MagicMock(get_item=get_item))
+    monkeypatch.setattr(
+        search_module, "ArchiveSearch", lambda **kw: _FakeSearch(identifiers)
+    )
+    search_module.search_pipeline(
+        title="x", media_type="audio", output_format=output_format
+    )
+
+
+@pytest.mark.parametrize("identifiers", [[], ["a"], ["a", "b"]])
+def test_pipeline_json_is_valid_array(monkeypatch, capsys, identifiers):
+    _run_pipeline(monkeypatch, identifiers, "json")
+    out = capsys.readouterr().out
+    parsed = json.loads(out)
+    assert [entry["title"] for entry in parsed] == [f"Title {i}" for i in identifiers]
+    # Commas trail their item; no line starts with one.
+    assert not any(line.startswith(",") for line in out.splitlines())
+    # Every item line ends with a comma except the last one.
+    item_lines = [line for line in out.splitlines() if line.startswith("{")]
+    assert [line.endswith(",") for line in item_lines] == [True] * (
+        len(identifiers) - 1
+    ) + [False] * bool(identifiers)
+
+
+def test_pipeline_yaml_unchanged(monkeypatch, capsys):
+    _run_pipeline(monkeypatch, ["a"], "yaml")
+    out = capsys.readouterr().out
+    assert out.startswith("---\n")
+    assert yaml.safe_load(out)[0]["title"] == "Title a"
+
+
+def _run_pipeline_interrupted(monkeypatch, output_format):
+    """Interrupt on the second item; get_item swallows nothing, the flag stops us."""
+    calls = []
+
+    def get_item(identifier):
+        calls.append(identifier)
+        if len(calls) == 2:
+            signal.raise_signal(signal.SIGINT)
+        item = MagicMock()
+        item.metadata = {"title": f"Title {identifier}", "identifier": identifier}
+        item.item_size = 100
+        return item
+
+    monkeypatch.setattr(search_module, "session", MagicMock(get_item=get_item))
+    monkeypatch.setattr(
+        search_module, "ArchiveSearch", lambda **kw: _FakeSearch(["a", "b", "c"])
+    )
+    previous = signal.getsignal(signal.SIGINT)
+    search_module.search_pipeline(
+        title="x", media_type="audio", output_format=output_format
+    )
+    assert signal.getsignal(signal.SIGINT) is previous
+    return calls
+
+
+def test_pipeline_json_stops_on_sigint(monkeypatch, capsys):
+    calls = _run_pipeline_interrupted(monkeypatch, "json")
+    parsed = json.loads(capsys.readouterr().out)
+    # The interrupted item is dropped and nothing is fetched afterward.
+    assert [entry["title"] for entry in parsed] == ["Title a"]
+    assert calls == ["a", "b"]
+
+
+def test_pipeline_yaml_stops_on_sigint(monkeypatch, capsys):
+    _run_pipeline_interrupted(monkeypatch, "yaml")
+    out = capsys.readouterr().out
+    assert [entry["title"] for entry in yaml.safe_load(out)] == ["Title a"]

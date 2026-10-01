@@ -56,8 +56,26 @@ def test_search_passes_options(runner, monkeypatch, flag):
             "max_size": "1000GB",
             "subject": "jazz",
             "query_all": True,
+            "output_format": "yaml",
         }
     ]
+
+
+def test_search_json_format(runner, monkeypatch):
+    calls = []
+    monkeypatch.setattr(cli, "search_pipeline", lambda **kw: calls.append(kw))
+    result = runner.invoke(
+        cli.main, ["search", "foo", "--type", "audio", "--format", "json"]
+    )
+    assert result.exit_code == 0
+    assert calls[0]["output_format"] == "json"
+
+
+def test_search_invalid_format(runner):
+    result = runner.invoke(
+        cli.main, ["search", "foo", "--type", "audio", "--format", "xml"]
+    )
+    assert result.exit_code == 2
 
 
 def test_configure(runner, monkeypatch):

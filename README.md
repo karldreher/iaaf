@@ -17,6 +17,9 @@ iaaf search "grateful dead" --type audio --min-size 100MB --max-size 2GB
 # Treat the argument as a query against all metadata
 iaaf search "jazz AND live" --type audio --query-all
 
+# Output a JSON array instead of the default yaml
+iaaf search "title" --type movies --format json | jq
+
 # Configure Internet Archive credentials
 iaaf configure
 
