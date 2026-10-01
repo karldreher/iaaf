@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v5.1.0 (2026-10-01)
+
+### Features
+
+- Json output ([#38](https://github.com/karldreher/iaaf/pull/38),
+  [`f469e78`](https://github.com/karldreher/iaaf/commit/f469e78fd6dfc764757777102a7446c4f7f141ab))
+
+
 ## v5.0.0 (2026-10-01)
 
 ### Build System
