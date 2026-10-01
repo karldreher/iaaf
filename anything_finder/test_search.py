@@ -1,3 +1,4 @@
+import json
 from unittest.mock import MagicMock
 
 import pytest
@@ -71,6 +72,28 @@ def test_archive_search_query_all():
         search.query
         == "mediatype:audio AND item_size:[0 TO 1000000000000] AND (Curtis Mayfield - Pusherman)"  # noqa: E501
     )
+
+
+def _mock_item():
+    item = MagicMock()
+    item.metadata = {"title": "Cameo - Word Up", "identifier": "Mock"}
+    item.item_size = "12345"
+    return item
+
+
+def test_render_json():
+    archive_item = ArchiveItem(_mock_item())
+    assert json.loads(archive_item.render("json")) == archive_item.dict
+
+
+def test_render_yaml_matches_output():
+    archive_item = ArchiveItem(_mock_item())
+    assert archive_item.render("yaml") == archive_item.output
+
+
+def test_render_invalid_format():
+    with pytest.raises(ValueError):
+        ArchiveItem(_mock_item()).render("xml")
 
 
 def test_output():

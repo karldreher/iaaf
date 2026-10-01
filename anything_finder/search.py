@@ -32,13 +32,16 @@ class ArchiveItem:
     def download_url(self):
         self.item.download(dry_run=True)
 
-    @property
-    def output(self, format: str = "yaml"):
+    def render(self, format: str) -> str:
         if format == "yaml":
             return yaml.dump([self.dict], sort_keys=False)
         if format == "json":
             return json.dumps(self.dict)
         raise ValueError("Output format must be yaml or json.")
+
+    @property
+    def output(self) -> str:
+        return self.render("yaml")
 
 
 class ArchiveSearch:
